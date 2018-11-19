@@ -9,6 +9,8 @@ import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 public class KiwiJsonRpcClient {
@@ -18,6 +20,46 @@ public class KiwiJsonRpcClient {
     private static final String BASE_HOST = Config.getInstance().getKiwiHost();
 
     public boolean login(String username, String password) {
+        return callPosParamService(LOGIN_METHOD, Arrays.asList((Object) username, (Object) password));
+    }
+
+    private boolean callPosParamService(String serviceMethod, List<Object> params){
+
+        JSONRPC2Session mySession = prepareSession();
+
+        // Construct new request
+        int requestID = 1;
+        JSONRPC2Request request = new JSONRPC2Request(serviceMethod, requestID);
+        request.setPositionalParams(params);
+
+        // Send request
+        try {
+            return responseSuccess(mySession.send(request));
+        } catch (JSONRPC2SessionException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean callNameParamService(String serviceMethod, Map<String, Object> params){
+
+        JSONRPC2Session mySession = prepareSession();
+
+        // Construct new request
+        int requestID = 1;
+        JSONRPC2Request request = new JSONRPC2Request(LOGIN_METHOD, requestID);
+        request.setNamedParams(params);
+
+        // Send request
+        try {
+            return responseSuccess(mySession.send(request));
+        } catch (JSONRPC2SessionException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private JSONRPC2Session prepareSession(){
         URL serverURL = null;
 
         try {
@@ -25,24 +67,15 @@ public class KiwiJsonRpcClient {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
         JSONRPC2Session mySession = new JSONRPC2Session(serverURL);
         mySession.getOptions().setRequestContentType("application/json");
         mySession.getOptions().trustAllCerts(true);
+        return mySession;
+    }
 
-        // Construct new request
-        int requestID = 1;
-        JSONRPC2Request request = new JSONRPC2Request(LOGIN_METHOD, requestID);
-        request.setPositionalParams(Arrays.asList((Object) username, (Object) password));
-        // Send request
-        JSONRPC2Response response = null;
-        try {
-            response = mySession.send(request);
-        } catch (JSONRPC2SessionException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
+    private boolean responseSuccess(JSONRPC2Response response){
         // Print response result / error
         if (response.indicatesSuccess()) {
             System.out.println(response.getResult());
