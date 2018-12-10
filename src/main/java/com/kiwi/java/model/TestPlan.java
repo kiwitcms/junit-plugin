@@ -20,4 +20,11 @@ public class TestPlan {
     private String parent;
     private String[] tag;
 
+    public TestPlan (String product, String productVersion){
+        this.name = "Automated test plan for " + product;
+        this.product = product;
+        this.productVersion = productVersion;
+        this.type = "Unit";
+    }
+
 }

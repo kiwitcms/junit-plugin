@@ -2,7 +2,6 @@ package com.kiwi.java.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.minidev.json.JSONObject;
 
 import java.util.List;
 

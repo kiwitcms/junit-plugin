@@ -44,4 +44,14 @@ public class Config {
     public String getKiwiPassword(){
         return config.getString("TCMS_PASSWORD");
     }
+
+    public String getKiwiRunId(){
+        return config.getString("TCMS_RUN_ID");
+    }
+
+    public String getProduct(){ return config.getString("TCMS_PRODUCT");}
+
+    public String getProductVersion(){ return config.getString("TCMS_PRODUCT_VERSION");}
+
+
 }
