@@ -1,6 +1,6 @@
-package com.kiwi.java.junit;
+package org.kiwitcms.java.junit;
 
-import com.kiwi.java.model.TestMethod;
+import org.kiwitcms.java.model.TestMethod;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.*;

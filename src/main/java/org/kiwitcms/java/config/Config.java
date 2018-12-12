@@ -1,4 +1,4 @@
-package com.kiwi.java.config;
+package org.kiwitcms.java.config;
 
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;

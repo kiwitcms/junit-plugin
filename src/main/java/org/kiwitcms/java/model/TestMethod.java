@@ -1,4 +1,4 @@
-package com.kiwi.java.model;
+package org.kiwitcms.java.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

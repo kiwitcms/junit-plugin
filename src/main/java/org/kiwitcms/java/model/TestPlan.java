@@ -1,4 +1,4 @@
-package com.kiwi.java.model;
+package org.kiwitcms.java.model;
 
 public class TestPlan {
     private Integer id;

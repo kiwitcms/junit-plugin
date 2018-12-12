@@ -1,7 +1,7 @@
-package com.kiwi.java.junit;
+package org.kiwitcms.java.junit;
 
-import com.kiwi.java.api.KiwiJsonRpcClient;
-import com.kiwi.java.config.Config;
+import org.kiwitcms.java.api.KiwiJsonRpcClient;
+import org.kiwitcms.java.config.Config;
 
 public class TestDataEmitter {
     public static void main(String[] args) {
