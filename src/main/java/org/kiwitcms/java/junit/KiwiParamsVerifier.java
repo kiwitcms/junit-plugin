@@ -1,4 +1,4 @@
-package com.kiwi.java.junit;
+package org.kiwitcms.java.junit;
 
 public class KiwiParamsVerifier {
 

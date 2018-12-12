@@ -1,9 +1,9 @@
-package com.kiwi.java.api;
+package org.kiwitcms.java.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiwi.java.config.Config;
-import com.kiwi.java.model.TestCase;
+import org.kiwitcms.java.config.Config;
+import org.kiwitcms.java.model.TestCase;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;

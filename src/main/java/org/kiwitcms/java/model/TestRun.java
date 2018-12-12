@@ -1,6 +1,6 @@
-package com.kiwi.java.model;
+package org.kiwitcms.java.model;
 
-import com.kiwi.java.config.Config;
+import org.kiwitcms.java.config.Config;
 
 public class TestRun {
     private String summary;
