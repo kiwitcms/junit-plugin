@@ -1,4 +1,4 @@
-package com.kiwi.java.api;
+package org.kiwitcms.java.api;
 
 import com.thetransactioncompany.jsonrpc2.client.ConnectionConfigurator;
 
