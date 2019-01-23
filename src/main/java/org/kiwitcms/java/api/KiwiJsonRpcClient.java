@@ -7,6 +7,7 @@ import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.kiwitcms.java.model.TestCaseRun;
 import org.kiwitcms.java.model.TestRun;
 
 import java.io.IOException;

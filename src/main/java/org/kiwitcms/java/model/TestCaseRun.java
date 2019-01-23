@@ -1,4 +1,4 @@
-package com.kiwi.java.model;
+package org.kiwitcms.java.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
