@@ -1,17 +1,49 @@
 package org.kiwitcms.java.model;
 
-import org.kiwitcms.java.config.Config;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TestRun {
     private String summary;
-    private String plan;
+    private int plan;
     private int build;
-    private String manager;
+    private int manager;
 
-    public TestRun(String plan, int build){
-        this.summary = "Automated test run";
-        this.plan = plan;
-        this.build = build;
-        this.manager = Config.getInstance().getKiwiUsername();
+    public String getSummary() {
+        return summary;
     }
+
+    @JsonSetter("summary")
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public int getPlan() {
+        return plan;
+    }
+
+    @JsonSetter("plan")
+    public void setPlan(int plan) {
+        this.plan = plan;
+    }
+
+    public int getBuild() {
+        return build;
+    }
+
+    @JsonSetter("build")
+    public void setBuild(int build) {
+        this.build = build;
+    }
+
+    public int getManager() {
+        return manager;
+    }
+
+    @JsonSetter("manager")
+    public void setManager(int manager) {
+        this.manager = manager;
+    }
+
 }
