@@ -5,6 +5,7 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
+import java.util.Optional;
 
 public class Config {
 
@@ -49,9 +50,23 @@ public class Config {
         return config.getString("TCMS_RUN_ID");
     }
 
-    public String getProduct(){ return config.getString("TCMS_PRODUCT");}
+    public String getProduct(){
+        return
+                Optional.ofNullable(System.getenv("TRAVIS_REPO_SLUG")).
+                        orElse(config.getString("TCMS_PRODUCT"));
+    }
 
-    public String getProductVersion(){ return config.getString("TCMS_PRODUCT_VERSION");}
+    public String getProductVersion(){
+        return
+                Optional.ofNullable(System.getenv("TRAVIS_COMMIT")).
+                        orElse(config.getString("TCMS_PRODUCT_VERSION"));
+    }
 
+    public String getKiwiBuild(){
+        return
+            Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
+                    orElse(config.getString("TCMS_BUILD"));
+
+    }
 
 }
