@@ -24,6 +24,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient{
     private static final String CREATE_RUN_METHOD = "TestRun.create";
     private static final String CREATE_TC_METHOD = "TestCase.create";
     private static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
+    private static final String TEST_PLAN_FILTER = "TestPlan.filter";
 
     public TestCase createNewTC(int category, int product, String summary){
         Map<String, Object> params = new HashMap<>();
@@ -69,6 +70,13 @@ public class KiwiJsonRpcClient extends BaseRpcClient{
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean runExists(int runId){
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("pk", runId);
+        JSONArray jsonArray = (JSONArray)callPosParamService(TEST_PLAN_FILTER, Arrays.asList((Object)filter));
+        return ! jsonArray.isEmpty();
     }
 
     public String login(String username, String password) {
