@@ -21,6 +21,11 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
 
     public void afterAll(ExtensionContext context){
         System.out.println(TestMethod.toJSONArrayString(tests));
+        TestDataEmitter emitter = new TestDataEmitter();
+        for (TestMethod test : tests){
+            emitter.emitNewTestCase(test.name);
+        }
+        emitter.closeSession();
         //check for existing test plan
         //if no, create test plan
         //add results
