@@ -33,8 +33,18 @@ public class KiwiJsonRpcClient extends BaseRpcClient{
         params.put("product", product);
         // X-Product - 8
         params.put("summary", summary);
-        params.put("priority", 1);
-        return (TestCase) callValueNameParamService(CREATE_TC_METHOD, params);
+        //CONFIRMED
+        params.put("case_status", 2);
+        params.put("is_automated", 1);
+        params.put("priority", 9);
+        JSONObject json = (JSONObject) callPosParamService(CREATE_TC_METHOD, Arrays.asList((Object)params));
+//        return (TestCase) callValueNameParamService(CREATE_TC_METHOD, params);
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestCase.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public TestRun createNewTR(int build, int manager, int plan, String summary){
