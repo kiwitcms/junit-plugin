@@ -42,7 +42,7 @@ public class TestCase {
         return isAutomated;
     }
 
-    @JsonSetter("automated")
+    @JsonSetter("is_automated")
     public void setAutomated(int automated) {
         isAutomated = automated;
     }
@@ -100,5 +100,7 @@ public class TestCase {
     public void setPlan(int[] plan) {
         this.plan = plan;
     }
+
+    //case_run_id
 
 }
