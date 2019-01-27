@@ -5,24 +5,43 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Build {
-    private int buildId;
+    private int id;
     private String name;
-    private String classification;
+    private String product;
+    private int productId;
 
-    public int getBuildId() {
-        return buildId;
+    public String getProduct() {
+        return product;
+    }
+
+    @JsonSetter("product")
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    @JsonSetter("product_id")
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @JsonSetter("build_id")
-    public void setBuildId(int buildId) {
-        this.buildId = buildId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    @JsonSetter
+    @JsonSetter("name")
     public void setName(String name) {
         this.name = name;
     }
