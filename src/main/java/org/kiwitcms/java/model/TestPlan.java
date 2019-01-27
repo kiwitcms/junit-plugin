@@ -109,8 +109,6 @@ public class TestPlan {
         this.typeId = typeId;
     }
 
-    public TestPlan(){};
-
 }
 
 //{"parent":null,"product_version":"unspecified","product":"Dunder","is_active":true,"extra_link":null,"author":"apetkova","type_id":1,"product_version_id":1,"type":"Unit","parent_id":null,"product_id":1,"name":"Auto Test Plan 1","text":"WIP","tag":[],"create_date":"2019-01-26 23:21:35","author_id":2259,"plan_id":1507}

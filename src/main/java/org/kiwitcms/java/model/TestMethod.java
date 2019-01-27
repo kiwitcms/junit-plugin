@@ -11,8 +11,28 @@ public class TestMethod {
     public String result;
     public Throwable exception;
 
-    public String getKiwiSummary(){
+    public TestMethod(){};
+
+    public TestMethod(String name, String containingClass, String result){
+        this.name = name;
+        this.containingClass = containingClass;
+        this.result = result;
+    }
+
+    public String getKiwiSummary() {
         return containingClass + "." + name;
+    }
+
+    public int getKiwiStatus() {
+        switch (result) {
+            case "PASS":
+                return 4;
+            case "FAIL":
+                return 5;
+            default:
+                //IDLE
+                return 1;
+        }
     }
 
     public String toJSONString() {
@@ -24,7 +44,7 @@ public class TestMethod {
         }
     }
 
-    public static String toJSONArrayString(List<TestMethod> list){
+    public static String toJSONArrayString(List<TestMethod> list) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(list);

@@ -11,7 +11,7 @@ import java.util.Date;
 public class TestCase {
     private int caseId;
     private Date createDate;
-    private int isAutomated;
+    private boolean isAutomated;
     private int[] plan;
     private String arguments;
     private String summary;
@@ -38,12 +38,12 @@ public class TestCase {
         this.createDate = createDate;
     }
 
-    public int isAutomated() {
+    public boolean isAutomated() {
         return isAutomated;
     }
 
     @JsonSetter("is_automated")
-    public void setAutomated(int automated) {
+    public void setAutomated(boolean automated) {
         isAutomated = automated;
     }
 
@@ -102,16 +102,18 @@ public class TestCase {
     }
 
     //case_run_id
-    public static boolean nameExists(String name, TestCase[] tests){
-        if (name == null || name.isEmpty()){
-            return false;
+    public static Integer nameExists(String name, TestCase[] tests){
+        if (name == null || name.isEmpty() || tests.length == 0){
+            return null;
         } else {
             for (TestCase tc : tests) {
+                System.out.println("Name to match: " + name);
+                System.out.println("TC Summary: " + tc.summary);
                 if (name.equals(tc.summary)){
-                    return true;
+                    return tc.caseId;
                 }
             }
-            return false;
+            return null;
         }
     }
 }
