@@ -35,6 +35,9 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     private static final String TEST_CASE_RUN_FILTER = "TestCaseRun.filter";
     private static final String CREATE_TC_RUN_METHOD = "TestCaseRun.create";
     private static final String UPDATE_TC_RUN_METHOD = "TestCaseRun.update";
+    private static final String CREATE_VERSION_METHOD = "Version.create";
+    private static final String VERSION_FILTER = "Version.filter";
+
 
 
     public TestCase createNewTC(int category, int product, String summary) {
@@ -152,12 +155,12 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    public TestPlan createNewTP(int productId, String name, int type) {
+    public TestPlan createNewTP(int productId, String name, int type, int versionId) {
         Map<String, Object> params = new HashMap<>();
         params.put("product", productId);
         params.put("type", type);
         params.put("default_product_version", 0);
-        params.put("product_version", 1);
+        params.put("product_version", versionId);
         params.put("text", "WIP");
         params.put("is_active", true);
         params.put("name", name);
@@ -178,31 +181,25 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         callNameParamService(ADD_TC_TO_PLAN_METHOD, params);
     }
 
-    //TODO: Not sure why I needed this
-    public Integer getBuildId() {
-        Map<String, Object> filter = new HashMap<>();
-        filter.put("build_id", 33);
-        filter.put("product_id", 1);
-
+    public Build[] getBuilds(Map<String, Object> filter) {
         JSONArray jsonArray = (JSONArray) callPosParamService(BUILD_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
-            return null;
+            return new Build[0];
         } else {
             try {
-                Build[] build = new ObjectMapper().readValue(jsonArray.toJSONString(), Build[].class);
-                return build[0].getBuildId();
+                Build[] builds = new ObjectMapper().readValue(jsonArray.toJSONString(), Build[].class);
+                return builds;
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
+                return new Build[0];
             }
         }
     }
 
-    //TODO: Server returned HTTP response code: 403 for URL: https://demo.kiwitcms.org/json-rpc/
-    public Build createNewBuild(String name, String productName) {
+    public Build createBuild(String name, int productId) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
-        params.put("product", productName);
+        params.put("product", productId);
         JSONObject json = (JSONObject) callPosParamService(CREATE_BUILD_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), Build.class);
@@ -262,6 +259,35 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         }
     }
 
+    public Version[] getVersions(Map<String, Object> filter) {
+        JSONArray jsonArray = (JSONArray) callPosParamService(VERSION_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray.isEmpty()) {
+            return new Version[0];
+        } else {
+            try {
+                Version[] versions = new ObjectMapper().readValue(jsonArray.toJSONString(), Version[].class);
+                return versions;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new Version[0];
+            }
+        }
+    }
+
+    public Version createProductVersion(String version, int productId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("value", version);
+        params.put("product", productId);
+
+        JSONObject json = (JSONObject) callPosParamService(CREATE_VERSION_METHOD, Arrays.asList((Object) params));
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), Version.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public String login(String username, String password) {
         sessionId = (String) callPosParamService(LOGIN_METHOD, Arrays.asList(username, password));
         return sessionId;
@@ -287,5 +313,5 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
             System.err.println(e.getMessage());
         }
     }
-
+//    com.thetransactioncompany.jsonrpc2.JSONRPC2Error
 }

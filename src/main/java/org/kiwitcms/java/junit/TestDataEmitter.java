@@ -2,10 +2,7 @@ package org.kiwitcms.java.junit;
 
 import org.kiwitcms.java.api.KiwiJsonRpcClient;
 import org.kiwitcms.java.config.Config;
-import org.kiwitcms.java.model.TestCase;
-import org.kiwitcms.java.model.TestCaseRun;
-import org.kiwitcms.java.model.TestMethod;
-import org.kiwitcms.java.model.TestRun;
+import org.kiwitcms.java.model.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -51,7 +48,10 @@ public class TestDataEmitter {
                     planId = run.getPlan();
                 }
             }
-            planId = client.createNewTP(getProductId(), String.format("Auto Test Plan [%tF]", LocalDate.now()), 1).getId();
+            int productId = getProductId();
+            int versionId = getVersion(productId);
+            String name = String.format("Auto Test Plan [%tF]", LocalDate.now());
+            planId = client.createNewTP(productId, name, 1, versionId).getId();
 
         }
         return planId;
@@ -63,7 +63,7 @@ public class TestDataEmitter {
             if (testRun != null && client.getRun(testRun) != null) {
                 runId = testRun;
             } else {
-                runId = client.createNewRun(1, Config.getInstance().getKiwiUsername(),
+                runId = client.createNewRun(getBuild(getProductId()), Config.getInstance().getKiwiUsername(),
                         getPlanId(), String.format("Auto Test Run [%tF]", LocalDate.now())).getId();
             }
         }
@@ -82,16 +82,54 @@ public class TestDataEmitter {
                 if (testCaseRun != null) {
                     client.updateTestCaseRun(testCaseRun.getTcRunId(), test.getKiwiStatus());
                 } else {
-                    client.createTestCaseRun(runId, matchingCaseId, 1, test.getKiwiStatus());
+                    int buildId = getBuild(getProductId());
+                    client.createTestCaseRun(runId, matchingCaseId, buildId, test.getKiwiStatus());
                 }
             } else {
-                TestCase addition = client.createNewTC(76, getProductId(), test.getKiwiSummary());
+                //TODO: get category via filter
+                TestCase addition = client.createNewTC(475, getProductId(), test.getKiwiSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
                 TestCaseRun tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
                 client.updateTestCaseRun(tcr.getTcRunId(), test.getKiwiStatus());
             }
         }
+    }
 
+    public int getBuild(int productId) {
+        String confBuild = config.getKiwiBuild();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("product", productId);
+        if (confBuild != null) {
+            filter.put("name", confBuild);
+            Build[] existingBuilds = client.getBuilds(filter);
+            if (existingBuilds.length > 0) {
+                return existingBuilds[0].getId();
+            } else {
+                Build newBuild = client.createBuild(confBuild, productId);
+                if (newBuild != null) {
+                    return newBuild.getId();
+                }
+            }
+        }
+        return client.getBuilds(filter)[0].getId();
+    }
 
+    public int getVersion(int productId) {
+        String confVersion = config.getProductVersion();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("product", productId);
+        if (confVersion != null) {
+            filter.put("value", confVersion);
+            Version[] existingVersions = client.getVersions(filter);
+            if (existingVersions.length > 0) {
+                return existingVersions[0].getId();
+            } else {
+                Version newVersion = client.createProductVersion(confVersion, productId);
+                if (newVersion != null) {
+                    return newVersion.getId();
+                }
+            }
+        }
+        return client.getVersions(filter)[0].getId();
     }
 }
