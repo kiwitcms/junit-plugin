@@ -11,6 +11,10 @@ public class TestMethod {
     public String result;
     public Throwable exception;
 
+    public String getKiwiSummary(){
+        return containingClass + "." + name;
+    }
+
     public String toJSONString() {
         ObjectMapper mapper = new ObjectMapper();
         try {

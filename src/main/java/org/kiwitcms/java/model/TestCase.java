@@ -102,5 +102,16 @@ public class TestCase {
     }
 
     //case_run_id
-
+    public static boolean nameExists(String name, TestCase[] tests){
+        if (name == null || name.isEmpty()){
+            return false;
+        } else {
+            for (TestCase tc : tests) {
+                if (name.equals(tc.summary)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

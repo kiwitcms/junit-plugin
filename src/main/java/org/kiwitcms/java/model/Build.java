@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Product {
-    private int id;
+public class Build {
+    private int buildId;
     private String name;
     private String classification;
 
-    public int getId() {
-        return id;
+    public int getBuildId() {
+        return buildId;
     }
 
-    @JsonSetter
-    public void setId(int id) {
-        this.id = id;
+    @JsonSetter("build_id")
+    public void setBuildId(int buildId) {
+        this.buildId = buildId;
     }
 
     public String getName() {
@@ -27,3 +27,5 @@ public class Product {
         this.name = name;
     }
 }
+
+//Choices are: build_id, build_run, description, is_active, name, product, product_id, testcaserun

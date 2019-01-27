@@ -24,7 +24,7 @@ public class TestCaseRun {
         return runId;
     }
 
-    @JsonSetter("run")
+    @JsonSetter("run_id")
     public void setRunId(int runId) {
         this.runId = runId;
     }
@@ -33,7 +33,7 @@ public class TestCaseRun {
         return caseId;
     }
 
-    @JsonSetter("case")
+    @JsonSetter("case_id")
     public void setCaseId(int caseId) {
         this.caseId = caseId;
     }
@@ -42,7 +42,7 @@ public class TestCaseRun {
         return build;
     }
 
-    @JsonSetter("build")
+    @JsonSetter("build_id")
     public void setBuild(int build) {
         this.build = build;
     }
