@@ -1,5 +1,6 @@
 package org.kiwitcms.java.junit;
 
+import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.TestMethod;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.extension.*;
 import org.junit.jupiter.engine.discovery.predicates.IsTestMethod;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 
+import javax.naming.ConfigurationException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +17,20 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
 
     private List<TestMethod> tests;
 
-    public void beforeAll(ExtensionContext context){
+    public void beforeAll(ExtensionContext context) throws ConfigurationException {
+        Config config = Config.getInstance();
+        if (config.getKiwiHost().isEmpty() || config.getKiwiUsername().isEmpty() || config.getKiwiPassword().isEmpty()){
+            throw new ConfigurationException();
+        }
         tests = new ArrayList<>();
     }
 
     public void afterAll(ExtensionContext context){
         System.out.println(TestMethod.toJSONArrayString(tests));
         TestDataEmitter emitter = new TestDataEmitter();
-        for (TestMethod test : tests){
-            emitter.emitNewTestCase(test.name);
-        }
+        int runId = emitter.getTestRunId();
+        emitter.addTestResultsToRun(runId, tests);
         emitter.closeSession();
-        //check for existing test plan
-        //if no, create test plan
-        //add results
     }
 
     public void afterEach(ExtensionContext context){
