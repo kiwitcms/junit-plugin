@@ -4,7 +4,6 @@
 
 package org.kiwitcms.java.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
@@ -22,34 +21,32 @@ import java.util.Map;
 
 public class KiwiJsonRpcClient extends BaseRpcClient {
 
-    private static final String LOGIN_METHOD = "Auth.login";
-    private static final String LOGOUT_METHOD = "Auth.logout";
-    private static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
-    private static final String CREATE_RUN_METHOD = "TestRun.create";
-    private static final String CREATE_TC_METHOD = "TestCase.create";
-    private static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
-    private static final String RUN_FILTER = "TestRun.filter";
-    private static final String PRODUCT_FILTER = "Product.filter";
-    private static final String CREATE_PRODUCT_METHOD = "Product.create";
-    private static final String BUILD_FILTER = "Build.filter";
-    private static final String CREATE_BUILD_METHOD = "Build.create";
-    private static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
-    private static final String CREATE_PLAN_METHOD = "TestPlan.create";
-    private static final String TEST_PLAN_FILTER = "TestPlan.filter";
-    private static final String TEST_CASE_RUN_FILTER = "TestCaseRun.filter";
-    private static final String CREATE_TC_RUN_METHOD = "TestCaseRun.create";
-    private static final String UPDATE_TC_RUN_METHOD = "TestCaseRun.update";
-    private static final String CREATE_VERSION_METHOD = "Version.create";
-    private static final String VERSION_FILTER = "Version.filter";
-
-
+    public static final String LOGIN_METHOD = "Auth.login";
+    public static final String LOGOUT_METHOD = "Auth.logout";
+    public static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
+    public static final String CREATE_RUN_METHOD = "TestRun.create";
+    public static final String CREATE_TC_METHOD = "TestCase.create";
+    public static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
+    public static final String RUN_FILTER = "TestRun.filter";
+    public static final String PRODUCT_FILTER = "Product.filter";
+    public static final String CREATE_PRODUCT_METHOD = "Product.create";
+    public static final String BUILD_FILTER = "Build.filter";
+    public static final String CREATE_BUILD_METHOD = "Build.create";
+    public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
+    public static final String CREATE_PLAN_METHOD = "TestPlan.create";
+    public static final String TEST_PLAN_FILTER = "TestPlan.filter";
+    public static final String TEST_CASE_RUN_FILTER = "TestCaseRun.filter";
+    public static final String CREATE_TC_RUN_METHOD = "TestCaseRun.create";
+    public static final String UPDATE_TC_RUN_METHOD = "TestCaseRun.update";
+    public static final String CREATE_VERSION_METHOD = "Version.create";
+    public static final String VERSION_FILTER = "Version.filter";
+    public static final String PRIORITY_FILTER = "Priority.filter";
+    
 
     public TestCase createNewTC(int category, int product, String summary) {
         Map<String, Object> params = new HashMap<>();
-        //category: Functional - 76
         params.put("category", category);
         params.put("product", product);
-        // X-Product - 8
         params.put("summary", summary);
         //CONFIRMED
         params.put("case_status", 2);
@@ -146,7 +143,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         filter.put("run_id", runId);
 
         JSONArray jsonArray = (JSONArray) callPosParamService(RUN_FILTER, Arrays.asList((Object) filter));
-        if (jsonArray.isEmpty()) {
+        if (jsonArray == null || jsonArray.isEmpty()) {
             return null;
         } else {
             try {
@@ -251,7 +248,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         Map<String, Object> values = new HashMap<>();
         values.put("status", status);
 
-        Map <String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("case_run_id", tcRunId);
         params.put("values", values);
         JSONObject json = (JSONObject) callNameParamService(UPDATE_TC_RUN_METHOD, params);
@@ -289,6 +286,21 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Priority[] getPriority(Map<String, Object> filter) {
+        JSONArray jsonArray = (JSONArray) callPosParamService(PRIORITY_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray.isEmpty()) {
+            return new Priority[0];
+        } else {
+            try {
+                Priority[] priorities = new ObjectMapper().readValue(jsonArray.toJSONString(), Priority[].class);
+                return priorities;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new Priority[0];
+            }
         }
     }
 
