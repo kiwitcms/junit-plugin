@@ -30,7 +30,6 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
     }
 
     public void afterAll(ExtensionContext context){
-        System.out.println(TestMethod.toJSONArrayString(tests));
         TestDataEmitter emitter = new TestDataEmitter();
         int runId = emitter.getTestRunId();
         emitter.addTestResultsToRun(runId, tests);
