@@ -36,60 +36,62 @@ public class Config {
         throw new IllegalArgumentException("Unknown configuration value type: " + type.getName());
     }
 
-    private Config(){
+    private Config() {
         config = new Properties();
         try {
             config.load(new FileInputStream(new File("kiwi.tcms.conf")));
-        }catch(java.io.IOException fnfe){
+        } catch (java.io.IOException fnfe) {
             fnfe.printStackTrace();
         }
     }
 
-    public static Config getInstance(){
-        if (null == instance){
+    public static Config getInstance() {
+        if (null == instance) {
             instance = new Config();
         }
         return instance;
 
     }
 
-    public String getKiwiHost(){
+    public String getKiwiHost() {
         return config.getProperty("TCMS_API_URL");
     }
 
-    public String getKiwiUsername(){
+    public String getKiwiUsername() {
         return config.getProperty("TCMS_USERNAME");
     }
 
-    public String getKiwiPassword(){
-        return config.getProperty("TCMS_PASSWORD");
+    public String getKiwiPassword() {
+        return
+                Optional.ofNullable(System.getenv(
+                        "TCMS_PASSWORD")).orElse(config.getProperty("TCMS_PASSWORD"));
     }
 
-    public Integer getKiwiRunId(){
+    public Integer getKiwiRunId() {
         String runId = config.getProperty("TCMS_RUN_ID");
-        if (runId.isEmpty()){
+        if (runId.isEmpty()) {
             return null;
         } else {
             return Integer.getInteger(runId);
         }
     }
 
-    public String getProduct(){
+    public String getProduct() {
         return
                 Optional.ofNullable(System.getenv("TRAVIS_REPO_SLUG")).
                         orElse(config.getProperty("TCMS_PRODUCT"));
     }
 
-    public String getProductVersion(){
+    public String getProductVersion() {
         return
                 Optional.ofNullable(System.getenv("TRAVIS_COMMIT")).
                         orElse(config.getProperty("TCMS_PRODUCT_VERSION"));
     }
 
-    public String getKiwiBuild(){
+    public String getKiwiBuild() {
         return
-            Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
-                    orElse(config.getProperty("TCMS_BUILD"));
+                Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
+                        orElse(config.getProperty("TCMS_BUILD"));
 
     }
 
