@@ -3,3 +3,5 @@ notifications:
   email:
     on_failure: change
     on_success: never
+after_success:
+  - mvn clean test jacoco:report coveralls:report
