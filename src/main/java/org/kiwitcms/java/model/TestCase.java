@@ -19,9 +19,11 @@ public class TestCase {
     private int[] plan;
     private String arguments;
     private String summary;
-    private int category;
-    private int priority;
+    private int categoryId;
+    private int priorityId;
     private String author;
+    private String product;
+    private int productId;
 
     public int getCaseId() {
         return caseId;
@@ -69,22 +71,22 @@ public class TestCase {
         this.summary = summary;
     }
 
-    public int getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
     @JsonSetter("category_id")
-    public void setCategory(int category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getPriorityId() {
+        return priorityId;
     }
 
     @JsonSetter("priority_id")
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setPriorityId(int priorityId) {
+        this.priorityId = priorityId;
     }
 
     public String getAuthor() {
@@ -105,14 +107,31 @@ public class TestCase {
         this.plan = plan;
     }
 
+    public String getProduct() {
+        return product;
+    }
+
+    @JsonSetter("product")
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    @JsonSetter("product_id")
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+
     //case_run_id
     public static Integer nameExists(String name, TestCase[] tests){
         if (name == null || name.isEmpty() || tests.length == 0){
             return null;
         } else {
             for (TestCase tc : tests) {
-                System.out.println("Name to match: " + name);
-                System.out.println("TC Summary: " + tc.summary);
                 if (name.equals(tc.summary)){
                     return tc.caseId;
                 }
