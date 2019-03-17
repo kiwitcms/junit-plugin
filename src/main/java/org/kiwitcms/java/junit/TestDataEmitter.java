@@ -8,7 +8,6 @@ import org.kiwitcms.java.api.KiwiJsonRpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class TestDataEmitter {
@@ -54,7 +53,9 @@ public class TestDataEmitter {
             }
             int productId = getProductId();
             int versionId = getVersion(productId);
-            String name = String.format("Auto Test Plan [%tF]", LocalDate.now());
+            String name = String.format("[JUnit] Plan for %s (%s)",
+                                        config.getProduct(),
+                                        config.getProductVersion());
             planId = client.createNewTP(productId, name, 1, versionId).getId();
 
         }
@@ -67,8 +68,13 @@ public class TestDataEmitter {
             if (testRun != null && client.getRun(testRun) != null) {
                 runId = testRun;
             } else {
-                runId = client.createNewRun(getBuild(getProductId()), Config.getInstance().getKiwiUsername(),
-                        getPlanId(), String.format("Auto Test Run [%tF]", LocalDate.now())).getId();
+                runId = client.createNewRun(getBuild(getProductId()),
+                                            config.getKiwiUsername(),
+                                            getPlanId(),
+                                            String.format("[JUnit] Results for %s, %s, %s",
+                                                          config.getProduct(),
+                                                          config.getProductVersion(),
+                                                          config.getKiwiBuild())).getId();
             }
         }
         return runId;
