@@ -68,7 +68,7 @@ public class Config {
     }
 
     public Integer getKiwiRunId() {
-        String runId = config.getProperty("TCMS_RUN_ID");
+        String runId = System.getenv("TCMS_RUN_ID");
         if (runId.isEmpty()) {
             return null;
         } else {
