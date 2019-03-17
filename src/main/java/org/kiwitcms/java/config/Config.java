@@ -40,7 +40,7 @@ public class Config {
         return instance;
     }
 
-    public String getKiwiHost() {
+    public String getKiwiUrl() {
         return
                 Optional.ofNullable(config.node("tcms").get("url", null)).
                     orElse(System.getenv("TCMS_API_URL"));

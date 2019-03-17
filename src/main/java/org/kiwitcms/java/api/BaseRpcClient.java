@@ -18,7 +18,7 @@ import java.util.Map;
 public class BaseRpcClient {
 
     public static final String RPC_ENDPOINT = "/json-rpc/";
-    public static final String BASE_HOST = Config.getInstance().getKiwiHost();
+    public static final String BASE_URL = Config.getInstance().getKiwiUrl();
 
     protected String sessionId;
 
@@ -26,7 +26,7 @@ public class BaseRpcClient {
         URL serverURL = null;
 
         try {
-            serverURL = new URL(new URL(BASE_HOST), RPC_ENDPOINT);
+            serverURL = new URL(new URL(BASE_URL), RPC_ENDPOINT);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
