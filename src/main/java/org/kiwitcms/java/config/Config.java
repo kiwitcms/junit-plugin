@@ -69,7 +69,7 @@ public class Config {
 
     public Integer getKiwiRunId() {
         String runId = System.getenv("TCMS_RUN_ID");
-        if (runId.isEmpty()) {
+        if (runId == null) {
             return null;
         } else {
             return Integer.getInteger(runId);
@@ -78,21 +78,23 @@ public class Config {
 
     public String getProduct() {
         return
-                Optional.ofNullable(System.getenv("TRAVIS_REPO_SLUG")).
-                        orElse(config.getProperty("TCMS_PRODUCT"));
+                Optional.ofNullable(System.getenv("TCMS_PRODUCT")).
+                        orElse(Optional.ofNullable(System.getenv("TRAVIS_REPO_SLUG")).
+                                    orElse(System.getenv("JOB_NAME")));
     }
 
     public String getProductVersion() {
         return
-                Optional.ofNullable(System.getenv("TRAVIS_COMMIT")).
-                        orElse(config.getProperty("TCMS_PRODUCT_VERSION"));
+                Optional.ofNullable(System.getenv("TCMS_PRODUCT_VERSION")).
+                        orElse(Optional.ofNullable(System.getenv("TRAVIS_COMMIT")).
+                                    orElse(Optional.ofNullable(System.getenv("TRAVIS_PULL_REQUEST_SHA")).
+                                                orElse(System.getenv("GIT_COMMIT"))));
     }
 
     public String getKiwiBuild() {
         return
-                Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
-                        orElse(config.getProperty("TCMS_BUILD"));
-
+                Optional.ofNullable(System.getenv("TCMS_BUILD")).
+                        orElse(Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
+                                    orElse(System.getenv("BUILD_NUMBER")));
     }
-
 }
