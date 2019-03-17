@@ -54,11 +54,15 @@ public class Config {
     }
 
     public String getKiwiHost() {
-        return config.getProperty("TCMS_API_URL");
+        return
+                Optional.ofNullable(config.getProperty("TCMS_API_URL")).
+                    orElse(System.getenv("TCMS_API_URL"));
     }
 
     public String getKiwiUsername() {
-        return config.getProperty("TCMS_USERNAME");
+        return
+                Optional.ofNullable(config.getProperty("TCMS_USERNAME")).
+                    orElse(System.getenv("TCMS_USERNAME"));
     }
 
     public String getKiwiPassword() {
