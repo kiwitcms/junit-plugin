@@ -63,8 +63,8 @@ public class Config {
 
     public String getKiwiPassword() {
         return
-                Optional.ofNullable(System.getenv(
-                        "TCMS_PASSWORD")).orElse(config.getProperty("TCMS_PASSWORD"));
+                Optional.ofNullable(config.getProperty("TCMS_PASSWORD")).
+                    orElse(System.getenv("TCMS_PASSWORD"));
     }
 
     public Integer getKiwiRunId() {
