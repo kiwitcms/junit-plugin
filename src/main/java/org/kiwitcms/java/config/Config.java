@@ -8,38 +8,26 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import org.ini4j.Ini;
+import org.ini4j.IniPreferences;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Optional;
-import java.util.Properties;
+import java.util.prefs.Preferences;
 
 public class Config {
 
-    private Properties config;
+    private IniPreferences config;
     private static Config instance;
 
-    private Object getValue(String name, Class<?> type) {
-        String value = config.getProperty(name);
-        if (value == null)
-            return null;
-        if (type == String.class)
-            return value;
-        if (type == boolean.class)
-            return Boolean.parseBoolean(value);
-        if (type == int.class)
-            return Integer.parseInt(value);
-        if (type == float.class)
-            return Float.parseFloat(value);
-        throw new IllegalArgumentException("Unknown configuration value type: " + type.getName());
-    }
-
     private Config() {
-        config = new Properties();
         try {
-            config.load(new FileInputStream(new File("kiwi.tcms.conf")));
+            String home_dir = System.getProperty("user.home");
+            config = new IniPreferences(new Ini(new File(home_dir + "/.tcms.conf")));
         } catch (java.io.IOException fnfe) {
             fnfe.printStackTrace();
         }
@@ -50,24 +38,23 @@ public class Config {
             instance = new Config();
         }
         return instance;
-
     }
 
     public String getKiwiHost() {
         return
-                Optional.ofNullable(config.getProperty("TCMS_API_URL")).
+                Optional.ofNullable(config.node("tcms").get("url", null)).
                     orElse(System.getenv("TCMS_API_URL"));
     }
 
     public String getKiwiUsername() {
         return
-                Optional.ofNullable(config.getProperty("TCMS_USERNAME")).
+                Optional.ofNullable(config.node("tcms").get("username", null)).
                     orElse(System.getenv("TCMS_USERNAME"));
     }
 
     public String getKiwiPassword() {
         return
-                Optional.ofNullable(config.getProperty("TCMS_PASSWORD")).
+                Optional.ofNullable(config.node("tcms").get("password", null)).
                     orElse(System.getenv("TCMS_PASSWORD"));
     }
 

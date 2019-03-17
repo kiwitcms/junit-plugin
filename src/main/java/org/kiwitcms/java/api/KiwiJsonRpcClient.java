@@ -41,7 +41,6 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     public static final String CREATE_VERSION_METHOD = "Version.create";
     public static final String VERSION_FILTER = "Version.filter";
     public static final String PRIORITY_FILTER = "Priority.filter";
-    
 
     public TestCase createNewTC(int category, int product, String summary) {
         Map<String, Object> params = new HashMap<>();
