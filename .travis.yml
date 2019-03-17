@@ -1,4 +1,11 @@
 language: java
+install:
+  - |
+        echo "[tcms]" > ~/.tcms.conf
+        echo "url = https://demo.kiwitcms.org/xml-rpc/" >> ~/.tcms.conf
+        echo "username = apetkova" >> ~/.tcms.conf
+        echo "password = $TCMS_PASSWORD" >> ~/.tcms.conf
+
 notifications:
   email:
     on_failure: change
