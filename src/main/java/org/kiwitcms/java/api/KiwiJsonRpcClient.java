@@ -177,8 +177,14 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    public TestPlan createNewTP(int productId, String name, int type, int versionId) {
+    public TestPlan createNewTP(int productId, String name, int versionId) {
+        // TODO: move this in the constructor
         Map<String, Object> params = new HashMap<>();
+        params.put("name", "Unit");  // todo: this will need to change for TestNG
+        JSONArray jsonArray = (JSONArray) callPosParamService("PlanType.filter", Arrays.asList((Object) params));
+        Object type = ((JSONObject)jsonArray.get(0)).get("id");
+
+        params = new HashMap<>();
         params.put("product", productId);
         params.put("type", type);
         params.put("default_product_version", 0);

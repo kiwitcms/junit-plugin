@@ -57,7 +57,7 @@ public class TestDataEmitter {
             String name = String.format("[JUnit] Plan for %s (%s)",
                                         config.getProduct(),
                                         config.getProductVersion());
-            planId = client.createNewTP(productId, name, 1, versionId).getId();
+            planId = client.createNewTP(productId, name, versionId).getId();
 
         }
         return planId;
