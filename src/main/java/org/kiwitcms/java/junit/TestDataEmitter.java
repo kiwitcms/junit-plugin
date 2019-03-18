@@ -26,12 +26,17 @@ public class TestDataEmitter {
     }
 
     public int getProductId() {
+        String product_name = config.getProduct();
+
         if (productId == null) {
-            productId = client.getProductId(config.getProduct());
-            return productId;
-        } else {
-            return productId;
+            productId = client.getProductId(product_name);
         }
+
+        if (productId == null) {
+            productId = client.createNewProduct(product_name).getId();
+        }
+
+        return productId;
     }
 
     public void emitNewTestCase(String summary) {

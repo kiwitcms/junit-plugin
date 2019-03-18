@@ -61,6 +61,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     }
 
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
+System.out.println("*** createNewRun with "+build+" "+manager+" "+plan+" "+summary);
         Map<String, Object> params = new HashMap<>();
         params.put("build", build);
         params.put("manager", manager);
@@ -123,7 +124,6 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    //TODO: investigate error 'Method not found: "Product.create"'
     public Product createNewProduct(String name) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
