@@ -42,15 +42,31 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     public static final String VERSION_FILTER = "Version.filter";
     public static final String PRIORITY_FILTER = "Priority.filter";
 
-    public TestCase createNewTC(int category, int product, String summary) {
+    public TestCase createNewTC(int product, String summary) {
         Map<String, Object> params = new HashMap<>();
-        params.put("category", category);
+
+        // TODO: these should be moved in the constructor
+        // get the first possible priority
+        JSONArray jsonArray = (JSONArray) callPosParamService(PRIORITY_FILTER, Arrays.asList((Object) params));
+        Object priority = ((JSONObject)jsonArray.get(0)).get("id");
+
+        // get the first possible category
         params.put("product", product);
+        jsonArray = (JSONArray) callPosParamService("Category.filter", Arrays.asList((Object) params));
+        Object category = ((JSONObject)jsonArray.get(0)).get("id");
+
+        params.put("category", category);
         params.put("summary", summary);
-        //CONFIRMED
-        params.put("case_status", 2);
         params.put("is_automated", "true");
-        params.put("priority", 9);
+        params.put("priority", priority);
+
+        // get confirmed status
+        Map<String, Object> confirmed_params = new HashMap<>();
+        confirmed_params.put("name", "CONFIRMED");
+        jsonArray = (JSONArray) callPosParamService("TestCaseStatus.filter", Arrays.asList((Object) confirmed_params));
+        Object confirmed = ((JSONObject)jsonArray.get(0)).get("id");
+        params.put("case_status", confirmed);
+
         JSONObject json = (JSONObject) callPosParamService(CREATE_TC_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestCase.class);
@@ -61,7 +77,6 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     }
 
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
-System.out.println("*** createNewRun with "+build+" "+manager+" "+plan+" "+summary);
         Map<String, Object> params = new HashMap<>();
         params.put("build", build);
         params.put("manager", manager);

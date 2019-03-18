@@ -31,23 +31,20 @@ public class KiwiJsonRpcClientTest {
         KiwiJsonRpcClient spy = Mockito.spy(new KiwiJsonRpcClient());
 
         // props to test
-        String category = "category_id";
         String product = "product_id";
         String summary = "summary";
 
         // test object
         JSONObject json = new JSONObject();
-        json.put(category, 3);
         json.put(product, 345);
         json.put(summary, "Test Summary");
         // Prevent/stub logic in super.method()
         Mockito.doReturn(json).when((BaseRpcClient) spy).callPosParamService(anyString(), anyList());
 
         TestCase expectedTC = new TestCase();
-        expectedTC.setCategoryId(3);
         expectedTC.setProductId(345);
         expectedTC.setSummary("Test Summary");
-        assertThat(spy.createNewTC(3, 345, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
+        assertThat(spy.createNewTC(345, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
     }
 
 

@@ -39,10 +39,6 @@ public class TestDataEmitter {
         return productId;
     }
 
-    public void emitNewTestCase(String summary) {
-        client.createNewTC(76, getProductId(), summary);
-    }
-
     public void closeSession() {
         client.logout();
     }
@@ -101,8 +97,7 @@ public class TestDataEmitter {
                     client.createTestCaseRun(runId, matchingCaseId, buildId, test.getKiwiStatus());
                 }
             } else {
-                //TODO: get category via filter
-                TestCase addition = client.createNewTC(475, getProductId(), test.getKiwiSummary());
+                TestCase addition = client.createNewTC(getProductId(), test.getKiwiSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
                 TestCaseRun tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
                 client.updateTestCaseRun(tcr.getTcRunId(), test.getKiwiStatus());
