@@ -126,7 +126,14 @@ System.out.println("*** createNewRun with "+build+" "+manager+" "+plan+" "+summa
 
     public Product createNewProduct(String name) {
         Map<String, Object> params = new HashMap<>();
+
+        // TODO: move classification filtering in constructor
+        // get the first possible classification
+        JSONArray jsonArray = (JSONArray) callPosParamService("Classification.filter", Arrays.asList((Object) params));
+        Object classification_id = ((JSONObject)jsonArray.get(0)).get("id");
+
         params.put("name", name);
+        params.put("classification_id", classification_id);
 
         JSONObject json = (JSONObject) callPosParamService(CREATE_PRODUCT_METHOD, Arrays.asList((Object) params));
         try {
