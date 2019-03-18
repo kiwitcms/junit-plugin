@@ -259,8 +259,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         params.put("case", caseId);
         params.put("build", build);
         params.put("status", status);
-//        TODO: why not working?
-//        params.put("tested_by", user);
+
         JSONObject json = (JSONObject) callPosParamService(CREATE_TC_RUN_METHOD, Arrays.asList((Object) params));
         try {
             System.out.println(json.toJSONString());
