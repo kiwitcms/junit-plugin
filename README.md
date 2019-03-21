@@ -68,9 +68,10 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 ## Changelog
 
-### 1.0.1 (21 March 2019)
 
-Initial release. Can be considered of Beta quality!
+### 1.0.3, signed with C0C5FF36, Kiwi TCMS <info@kiwitcms.org> (21 March 2019)
+
+Initial release. Beta quality!
 
 
 ## Hacking
