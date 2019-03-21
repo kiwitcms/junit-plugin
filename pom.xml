@@ -2,11 +2,41 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kiwitcms.java</groupId>
-    <artifactId>java-plugin</artifactId>
+    <artifactId>kiwitcms-junit-plugin</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>kiwi-plugin</name>
-    <url>http://maven.apache.org</url>
+    <version>1.0.0</version>
+
+    <name>kiwitcms-junit-plugin</name>
+    <description>JUnit 5 plugin for Kiwi TCMS.</description>
+    <url>https://github.com/kiwitcms/junit-plugin</url>
+
+    <scm>
+      <connection>scm:git:git://github.com/kiwitcms/junit-plugin.git</connection>
+      <developerConnection>scm:git:ssh://github.com:kiwitcms/junit-plugin.git</developerConnection>
+      <url>https://github.com/kiwitcms/junit-plugin</url>
+    </scm>
+
+    <licenses>
+      <license>
+        <name>GNU General Public License, Version 3.0</name>
+        <url>https://opensource.org/licenses/GPL-3.0</url>
+      </license>
+    </licenses>
+
+    <developers>
+        <developer>
+          <name>Aneta Petkova</name>
+          <email>aneta.v.petkova@gmail.com</email>
+          <organization>Independent contributor</organization>
+          <organizationUrl>https://github.com/apetkova</organizationUrl>
+        </developer>
+        <developer>
+          <name>Alexander Todorov</name>
+          <email>atodorov@otb.bg</email>
+          <organization>Kiwi TCMS</organization>
+          <organizationUrl>http://kiwitcms.org</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <jacoco.version>0.8.3</jacoco.version>
