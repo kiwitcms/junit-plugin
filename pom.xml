@@ -50,11 +50,6 @@
     </distributionManagement>
 
 
-    <properties>
-        <jacoco.version>0.8.3</jacoco.version>
-    </properties>
-
-
     <!-- Maven Central release profile -->
     <profiles>
         <profile>
@@ -147,7 +142,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
+                <version>0.8.3</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
