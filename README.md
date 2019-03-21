@@ -34,7 +34,7 @@ and decorate your test suite with the `KiwiTcmsExtension` class:
 
 ## Configuration and environment
 
-Minimal config file `~/.tcms.conf`::
+Minimal config file `~/.tcms.conf`:
 
     [tcms]
     url = https://tcms.server/xml-rpc/
@@ -100,6 +100,6 @@ You need your `~/.m2/settings.xml` to look something like this
       </profiles>
     </settings>
 
-Update the version string in `pom.xml` and do
+To push a new release/SNAPSHOT update the version string in `pom.xml` and do
 
-    mvn clean deploy
+    mvn clean deploy -P release
