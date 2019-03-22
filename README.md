@@ -4,7 +4,7 @@ JUnit 5 plugin for Kiwi TCMS
 [![Build Status](https://travis-ci.org/kiwitcms/junit-plugin.svg?branch=master)](https://travis-ci.org/kiwitcms/junit-plugin)
 [![Coverage Status](https://coveralls.io/repos/github/kiwitcms/junit-plugin/badge.svg)](https://coveralls.io/github/kiwitcms/junit-plugin)
 [![TP for kiwitcms/junit-plugin (master)](https://img.shields.io/badge/kiwi%20tcms-results-9ab451.svg)](https://tcms.kiwitcms.org/plan/25/)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.kiwitcms.java/kiwitcms-junit-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.kiwitcms.java/kiwitcms-junit-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/org.kiwitcms.java/kiwitcms-junit-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.kiwitcms.java%22%20AND%20a:%22kiwitcms-junit-plugin%22)
 
 ## Installation & usage
 
