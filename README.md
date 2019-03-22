@@ -69,10 +69,9 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 ## Changelog
 
+Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
 ### 1.0.3 (21 March 2019)
-
-Signed with C0C5FF36, Kiwi TCMS <info@kiwitcms.org>
 
 - Initial release. Beta quality!
 
