@@ -43,7 +43,7 @@ Minimal config file `~/.tcms.conf`:
     password = your-password
 
 
-For more info see `tcms-api docs <https://tcms-api.readthedocs.io>`_.
+For more info see [tcms-api docs](https://tcms-api.readthedocs.io).
 
 This plugin is only concerned with parsing the JUnit test results and reporting
 them to the backend. Behavior is controlled via environment variables.
@@ -70,9 +70,11 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 ## Changelog
 
 
-### 1.0.3, signed with C0C5FF36, Kiwi TCMS <info@kiwitcms.org> (21 March 2019)
+### 1.0.3 (21 March 2019)
 
-Initial release. Beta quality!
+Signed with C0C5FF36, Kiwi TCMS <info@kiwitcms.org>
+
+- Initial release. Beta quality!
 
 
 ## Hacking
