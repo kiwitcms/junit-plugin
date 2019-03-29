@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import static org.kiwitcms.java.api.KiwiJsonRpcClient.*;
 
 
-//@ExtendWith(KiwiTcmsExtension.class)
+@ExtendWith(KiwiTcmsExtension.class)
 public class KiwiJsonRpcClientTest {
 
     @Test

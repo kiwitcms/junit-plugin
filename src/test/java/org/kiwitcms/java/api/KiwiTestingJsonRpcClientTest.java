@@ -22,10 +22,9 @@ import static org.kiwitcms.java.api.KiwiTestingJsonRpcClient.TEST_CASE_STATUS_FI
 import static org.mockito.ArgumentMatchers.*;
 
 
-//@ExtendWith(KiwiTcmsExtension.class)
+@ExtendWith(KiwiTcmsExtension.class)
 public class KiwiTestingJsonRpcClientTest {
 
-    //    @Disabled("Causes failures, not sure why")
     @Test
     public void createNewTCTest() {
         KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
@@ -89,7 +88,6 @@ public class KiwiTestingJsonRpcClientTest {
         assertThat(spy.getRun(-1), is(equalTo(null)));
     }
 
-    //    @Disabled("Causes failures, not sure why")
     @Test
     public void getRunWhenServiceResponceMisformattedTest() {
         KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
