@@ -19,7 +19,7 @@ public class BaseRpcClient {
 
     public static final String BASE_URL = Config.getInstance().getKiwiUrl();
 
-    protected String sessionId;
+    protected static String sessionId;
 
     protected JSONRPC2Session prepareSession(){
         URL serverURL = null;

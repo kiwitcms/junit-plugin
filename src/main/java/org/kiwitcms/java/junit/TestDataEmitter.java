@@ -4,7 +4,9 @@
 
 package org.kiwitcms.java.junit;
 
+import net.minidev.json.JSONObject;
 import org.kiwitcms.java.api.KiwiJsonRpcClient;
+import org.kiwitcms.java.api.KiwiProductJsonRpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
 
@@ -50,14 +52,16 @@ public class TestDataEmitter {
                 TestRun run = client.getRun(confRunId);
                 if (run != null) {
                     planId = run.getPlan();
+                    return planId;
                 }
             }
             int productId = getProductId();
             int versionId = getVersion(productId);
             String name = String.format("[JUnit] Plan for %s (%s)",
-                                        config.getProduct(),
-                                        config.getProductVersion());
+                    config.getProduct(),
+                    config.getProductVersion());
             planId = client.createNewTP(productId, name, versionId).getId();
+
 
         }
         return planId;
@@ -70,12 +74,12 @@ public class TestDataEmitter {
                 runId = testRun;
             } else {
                 runId = client.createNewRun(getBuild(getProductId()),
-                                            config.getKiwiUsername(),
-                                            getPlanId(),
-                                            String.format("[JUnit] Results for %s, %s, %s",
-                                                          config.getProduct(),
-                                                          config.getProductVersion(),
-                                                          config.getKiwiBuild())).getId();
+                        config.getKiwiUsername(),
+                        getPlanId(),
+                        String.format("[JUnit] Results for %s, %s, %s",
+                                config.getProduct(),
+                                config.getProductVersion(),
+                                config.getKiwiBuild())).getId();
             }
         }
         return runId;
@@ -97,7 +101,7 @@ public class TestDataEmitter {
                     client.createTestCaseRun(runId, matchingCaseId, buildId, test.getKiwiStatus());
                 }
             } else {
-                TestCase addition = client.createNewTC(getProductId(), test.getKiwiSummary());
+                TestCase addition = client.createNewConfirmedTC(getAvailableCategoryId(), getVersion(getProductId()), test.getKiwiSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
                 TestCaseRun tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
                 client.updateTestCaseRun(tcr.getTcRunId(), test.getKiwiStatus());
@@ -141,5 +145,17 @@ public class TestDataEmitter {
             }
         }
         return client.getVersions(filter)[0].getId();
+    }
+
+    public Priority getAvailablePriority(int productId){
+        Map<String, Object> filter = new HashMap<String, Object>();
+        filter.put("product", productId);
+        return client.getPriority(filter)[0];
+    }
+
+    //Get first available
+    public int getAvailableCategoryId(){
+        Object id = ((JSONObject) client.getCategory(new HashMap<String, Object>()).get(0)).get("id");
+        return Integer.parseInt(String.valueOf(id));
     }
 }
