@@ -28,14 +28,14 @@ public class TestDataEmitter {
     }
 
     public int getProductId() {
-        String product_name = config.getProduct();
+        String productName = config.getProduct();
 
         if (productId == null) {
-            productId = client.getProductId(product_name);
+            productId = client.getProductId(productName);
         }
 
         if (productId == null) {
-            productId = client.createNewProduct(product_name).getId();
+            productId = client.createNewProduct(productName).getId();
         }
 
         return productId;
@@ -60,9 +60,11 @@ public class TestDataEmitter {
             String name = String.format("[JUnit] Plan for %s (%s)",
                     config.getProduct(),
                     config.getProductVersion());
-            planId = client.createNewTP(productId, name, versionId).getId();
-
-
+            // check for name duplication
+            planId = client.getTestPlanId(name, productId);
+            if (planId < 0) {
+                planId = client.createNewTP(productId, name, versionId).getId();
+            }
         }
         return planId;
     }
@@ -87,6 +89,9 @@ public class TestDataEmitter {
 
     public void addTestResultsToRun(int runId, List<TestMethod> tests) {
         TestCase[] existingTests = client.getRunIdTestCases(runId);
+        if (existingTests.length == 0){
+            existingTests = client.getPlanIdTestCases(getPlanId());
+        }
         for (TestMethod test : tests) {
             Integer matchingCaseId = TestCase.nameExists(test.getKiwiSummary(), existingTests);
             if (matchingCaseId != null) {
@@ -101,7 +106,8 @@ public class TestDataEmitter {
                     client.createTestCaseRun(runId, matchingCaseId, buildId, test.getKiwiStatus());
                 }
             } else {
-                TestCase addition = client.createNewConfirmedTC(getAvailableCategoryId(), getVersion(getProductId()), test.getKiwiSummary());
+                TestCase addition = client.createNewConfirmedTC(getProductId(), getAvailableCategoryId(getProductId()),
+                        getAvailablePriorityId(), test.getKiwiSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
                 TestCaseRun tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
                 client.updateTestCaseRun(tcr.getTcRunId(), test.getKiwiStatus());
@@ -147,15 +153,17 @@ public class TestDataEmitter {
         return client.getVersions(filter)[0].getId();
     }
 
-    public Priority getAvailablePriority(int productId){
-        Map<String, Object> filter = new HashMap<String, Object>();
-        filter.put("product", productId);
-        return client.getPriority(filter)[0];
+    public int getAvailablePriorityId(){
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("is_active", "True");
+        Priority[] existingPriorities = client.getPriority(filter);
+        return existingPriorities[0].getId();
     }
 
-    //Get first available
-    public int getAvailableCategoryId(){
-        Object id = ((JSONObject) client.getCategory(new HashMap<String, Object>()).get(0)).get("id");
+    public int getAvailableCategoryId(int productId){
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("product", productId);
+        Object id = ((JSONObject) client.getCategory(filter).get(0)).get("id");
         return Integer.parseInt(String.valueOf(id));
     }
 }

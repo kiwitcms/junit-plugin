@@ -17,6 +17,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     public static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
     public static final String CREATE_RUN_METHOD = "TestRun.create";
     public static final String CREATE_TC_METHOD = "TestCase.create";
+    public static final String TEST_CASE_FILTER = "TestCase.filter";
     public static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
     public static final String RUN_FILTER = "TestRun.filter";
     public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
@@ -27,8 +28,9 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     public static final String UPDATE_TC_RUN_METHOD = "TestCaseRun.update";
     public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
-    TestCase createNewTC(int categoryId, int priorityId, int caseStatusId, String summary) {
+    TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
         Map<String, Object> params = new HashMap<>();
+        params.put("product", productId);
         params.put("category", categoryId);
         params.put("summary", summary);
         params.put("is_automated", "true");
@@ -69,6 +71,18 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         }
     }
 
+    TestCase[] getPlanIdTestCases(int planId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("plan", planId);
+        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_CASE_FILTER, Arrays.asList((Object)filter));
+        try {
+            return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new TestCase[0];
+        }
+    }
+
     TestCaseRun addTestCaseToRunId(int runId, int caseId) {
         Map<String, Object> params = new HashMap<>();
         params.put("run_id", runId);
@@ -88,6 +102,25 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         filter.put("pk", planId);
         JSONArray jsonArray = (JSONArray) callPosParamService(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
         return !jsonArray.isEmpty();
+    }
+
+    int getTestPlanId(String name, int productId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("name", name);
+        filter.put("product", productId);
+
+        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            return -1;
+        } else {
+            try {
+                TestPlan[] plans = new ObjectMapper().readValue(jsonArray.toJSONString(), TestPlan[].class);
+                return plans[0].getId();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
     }
 
 
@@ -110,9 +143,9 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     }
 
     TestPlan createNewTP(int productId, String name, int versionId) {
-        // TODO: move this in the constructor
+        // TODO: remove call for plan type
         Map<String, Object> params = new HashMap<>();
-        params.put("name", "Unit");  // todo: this will need to change for TestNG
+        params.put("name", "Unit");
         JSONArray jsonArray = (JSONArray) callPosParamService("PlanType.filter", Arrays.asList((Object) params));
         Object type = ((JSONObject) jsonArray.get(0)).get("id");
 
@@ -146,7 +179,6 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         if (jsonArray.isEmpty()) {
             return null;
         } else {
-            System.out.println(jsonArray.toJSONString());
             try {
                 TestCaseRun[] tcRun = new ObjectMapper().readValue(jsonArray.toJSONString(), TestCaseRun[].class);
                 return tcRun[0];
@@ -166,7 +198,6 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
 
         JSONObject json = (JSONObject) callPosParamService(CREATE_TC_RUN_METHOD, Arrays.asList((Object) params));
         try {
-            System.out.println(json.toJSONString());
             return new ObjectMapper().readValue(json.toJSONString(), TestCaseRun.class);
         } catch (IOException e) {
             e.printStackTrace();
