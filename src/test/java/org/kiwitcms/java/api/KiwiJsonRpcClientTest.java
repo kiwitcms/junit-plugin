@@ -11,14 +11,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.kiwitcms.java.junit.KiwiTcmsExtension;
 import org.mockito.Mockito;
 
 import static org.kiwitcms.java.api.KiwiJsonRpcClient.*;
 
 
-@ExtendWith(KiwiTcmsExtension.class)
 public class KiwiJsonRpcClientTest {
 
     @Test
