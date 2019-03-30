@@ -34,10 +34,11 @@ public class KiwiTestingJsonRpcClientTest {
         String priorityId = "priority_id";
         String summary = "summary";
         String caseStatusId = "case_status";
-
+        String productId = "product";
 
         // test object
         JSONObject json = new JSONObject();
+        json.put(productId, 33);
         json.put(categoryId, 4);
         json.put(priorityId, 0);
         json.put(caseStatusId, 1);
@@ -47,10 +48,12 @@ public class KiwiTestingJsonRpcClientTest {
         Mockito.doReturn(json).when((BaseRpcClient) spy).callPosParamService(eq(CREATE_TC_METHOD), anyList());
 
         TestCase expectedTC = new TestCase();
+        //inconsistent tcms behaviour
+        expectedTC.setProduct("33");
         expectedTC.setCategoryId(4);
         expectedTC.setPriorityId(0);
         expectedTC.setSummary("Test Summary");
-        assertThat(spy.createNewTC(4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
+        assertThat(spy.createNewTC(33, 4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
     }
 
     @Test

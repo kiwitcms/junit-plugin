@@ -51,13 +51,13 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    public TestCase createNewTC(int categoryId, int priorityId, int caseStatusId, String summary) {
-        return testingClient.createNewTC(categoryId, priorityId, caseStatusId, summary);
+    public TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
+        return testingClient.createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
     }
 
-    public TestCase createNewConfirmedTC(int categoryId, int priorityId, String summary) {
+    public TestCase createNewConfirmedTC(int productId, int categoryId, int priorityId, String summary) {
         int caseStatusId = testingClient.getConfirmedTCStatusId();
-        return testingClient.createNewTC(categoryId, priorityId, caseStatusId, summary);
+        return testingClient.createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
     }
 
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
@@ -66,6 +66,10 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
 
     public TestCase[] getRunIdTestCases(int runId) {
         return testingClient.getRunIdTestCases(runId);
+    }
+
+    public TestCase[] getPlanIdTestCases(int planId) {
+        return testingClient.getPlanIdTestCases(planId);
     }
 
     public TestCaseRun addTestCaseToRunId(int runId, int caseId) {
@@ -78,6 +82,10 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
 
     public TestPlan createNewTP(int productId, String name, int versionId) {
         return testingClient.createNewTP(productId, name, versionId);
+    }
+
+    public int getTestPlanId(String name, int productId){
+        return testingClient.getTestPlanId(name, productId);
     }
 
     public void addTestCaseToPlan(int planId, int caseId) {

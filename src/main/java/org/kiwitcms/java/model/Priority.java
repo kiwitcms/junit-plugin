@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 public class Priority {
     private String name;
     private int id;
-    private int productId;
+    private boolean isActive;
 
 
     public String getName() {
         return name;
     }
 
-    @JsonSetter("name")
+    @JsonSetter("value")
     public void setName(String name) {
         this.name = name;
     }
@@ -23,17 +23,17 @@ public class Priority {
         return id;
     }
 
-    @JsonSetter("priority_id")
+    @JsonSetter("id")
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
+    public boolean isActive() {
+        return isActive;
     }
 
-    @JsonSetter("product_id")
-    public void setProductId(int productId) {
-        this.productId = productId;
+    @JsonSetter("is_active")
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }
