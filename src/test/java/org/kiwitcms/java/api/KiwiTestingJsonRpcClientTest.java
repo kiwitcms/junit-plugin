@@ -8,8 +8,6 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.kiwitcms.java.junit.KiwiTcmsExtension;
 import org.kiwitcms.java.model.TestCase;
 import org.kiwitcms.java.model.TestRun;
 import org.mockito.Mockito;
@@ -22,7 +20,6 @@ import static org.kiwitcms.java.api.KiwiTestingJsonRpcClient.TEST_CASE_STATUS_FI
 import static org.mockito.ArgumentMatchers.*;
 
 
-@ExtendWith(KiwiTcmsExtension.class)
 public class KiwiTestingJsonRpcClientTest {
 
     @Test

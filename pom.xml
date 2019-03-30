@@ -11,30 +11,30 @@
     <url>https://github.com/kiwitcms/junit-plugin</url>
 
     <scm>
-      <connection>scm:git:git://github.com/kiwitcms/junit-plugin.git</connection>
-      <developerConnection>scm:git:ssh://github.com:kiwitcms/junit-plugin.git</developerConnection>
-      <url>https://github.com/kiwitcms/junit-plugin</url>
+        <connection>scm:git:git://github.com/kiwitcms/junit-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com:kiwitcms/junit-plugin.git</developerConnection>
+        <url>https://github.com/kiwitcms/junit-plugin</url>
     </scm>
 
     <licenses>
-      <license>
-        <name>GNU General Public License, Version 3.0</name>
-        <url>https://opensource.org/licenses/GPL-3.0</url>
-      </license>
+        <license>
+            <name>GNU General Public License, Version 3.0</name>
+            <url>https://opensource.org/licenses/GPL-3.0</url>
+        </license>
     </licenses>
 
     <developers>
         <developer>
-          <name>Aneta Petkova</name>
-          <email>aneta.v.petkova@gmail.com</email>
-          <organization>Independent contributor</organization>
-          <organizationUrl>https://github.com/apetkova</organizationUrl>
+            <name>Aneta Petkova</name>
+            <email>aneta.v.petkova@gmail.com</email>
+            <organization>Independent contributor</organization>
+            <organizationUrl>https://github.com/apetkova</organizationUrl>
         </developer>
         <developer>
-          <name>Alexander Todorov</name>
-          <email>atodorov@otb.bg</email>
-          <organization>Kiwi TCMS</organization>
-          <organizationUrl>http://kiwitcms.org</organizationUrl>
+            <name>Alexander Todorov</name>
+            <email>atodorov@otb.bg</email>
+            <organization>Kiwi TCMS</organization>
+            <organizationUrl>http://kiwitcms.org</organizationUrl>
         </developer>
     </developers>
 
@@ -53,7 +53,7 @@
     <!-- Maven Central release profile -->
     <profiles>
         <profile>
-        <id>release</id>
+            <id>release</id>
             <build>
                 <plugins>
                     <plugin>
@@ -121,8 +121,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <properties>
+                        <configurationParameters>
+                            junit.jupiter.extensions.autodetection.enabled=true
+                        </configurationParameters>
+                    </properties>
+                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -175,7 +183,7 @@
                 </executions>
                 <configuration>
                     <!--<systemPropertyVariables>-->
-                        <!--<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
+                    <!--<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
                     <!--</systemPropertyVariables>-->
                 </configuration>
             </plugin>
@@ -187,7 +195,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.4.1</version>
+            <version>5.5.0-M1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -195,7 +203,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.4.1</version>
+            <version>5.5.0-M1</version>
             <scope>compile</scope>
         </dependency>
 
