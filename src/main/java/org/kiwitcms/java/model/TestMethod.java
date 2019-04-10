@@ -28,6 +28,7 @@ public class TestMethod {
     }
 
     public int getTestExecutionStatus() {
+//todo: this must be coming from the database, not hard-coded
         switch (result) {
             case "PASS":
                 return 4;
