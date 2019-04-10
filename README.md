@@ -73,7 +73,8 @@ Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
 ### 6.7.0 (10 April 2019)
 
-- Compatible with Kiwi TCMS v6.7 or newer.
+- Compatible with Kiwi TCMS v6.7 or newer. Fixes
+  [Issue #42](https://github.com/kiwitcms/junit-plugin/issues/42)
 - Version string updated to reflect minimum server version
 - Still Beta quality
 
