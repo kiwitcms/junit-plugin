@@ -71,6 +71,12 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 6.7.0 (10 April 2019)
+
+- Compatible with Kiwi TCMS v6.7 or newer.
+- Version string updated to reflect minimum server version
+- Still Beta quality
+
 ### 1.0.3 (21 March 2019)
 
 - Initial release. Beta quality!
