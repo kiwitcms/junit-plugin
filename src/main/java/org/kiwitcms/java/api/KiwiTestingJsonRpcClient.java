@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.kiwitcms.java.model.TestCase;
-import org.kiwitcms.java.model.TestCaseRun;
+import org.kiwitcms.java.model.TestExecution;
 import org.kiwitcms.java.model.TestPlan;
 import org.kiwitcms.java.model.TestRun;
 
@@ -23,9 +23,9 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
     public static final String CREATE_PLAN_METHOD = "TestPlan.create";
     public static final String TEST_PLAN_FILTER = "TestPlan.filter";
-    public static final String TEST_CASE_RUN_FILTER = "TestExecution.filter";
-    public static final String CREATE_TC_RUN_METHOD = "TestExecution.create";
-    public static final String UPDATE_TC_RUN_METHOD = "TestExecution.update";
+    public static final String TEST_EXECUTION_FILTER = "TestExecution.filter";
+    public static final String TEST_EXECUTION_CREATE = "TestExecution.create";
+    public static final String TEST_EXECUTION_UPDATE = "TestExecution.update";
     public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
     TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
@@ -83,14 +83,14 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    TestCaseRun addTestCaseToRunId(int runId, int caseId) {
+    TestExecution addTestCaseToRunId(int runId, int caseId) {
         Map<String, Object> params = new HashMap<>();
         params.put("run_id", runId);
         params.put("case_id", caseId);
 
         JSONObject json = (JSONObject) callNameParamService(ADD_TC_TO_RUN_METHOD, params);
         try {
-            return new ObjectMapper().readValue(json.toJSONString(), TestCaseRun.class);
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -174,13 +174,13 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         callNameParamService(ADD_TC_TO_PLAN_METHOD, params);
     }
 
-    TestCaseRun getTestCaseRun(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_CASE_RUN_FILTER, Arrays.asList((Object) filter));
+    TestExecution getTestExecution(Map<String, Object> filter) {
+        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_EXECUTION_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return null;
         } else {
             try {
-                TestCaseRun[] tcRun = new ObjectMapper().readValue(jsonArray.toJSONString(), TestCaseRun[].class);
+                TestExecution[] tcRun = new ObjectMapper().readValue(jsonArray.toJSONString(), TestExecution[].class);
                 return tcRun[0];
             } catch (IOException e) {
                 e.printStackTrace();
@@ -189,32 +189,32 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         }
     }
 
-    TestCaseRun createTestCaseRun(int runId, int caseId, int build, int status) {
+    TestExecution createTestExecution(int runId, int caseId, int build, int status) {
         Map<String, Object> params = new HashMap<>();
         params.put("run", runId);
         params.put("case", caseId);
         params.put("build", build);
         params.put("status", status);
 
-        JSONObject json = (JSONObject) callPosParamService(CREATE_TC_RUN_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) callPosParamService(TEST_EXECUTION_CREATE, Arrays.asList((Object) params));
         try {
-            return new ObjectMapper().readValue(json.toJSONString(), TestCaseRun.class);
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    TestCaseRun updateTestCaseRun(int tcRunId, int status) {
+    TestExecution updateTestExecution(int tcRunId, int status) {
         Map<String, Object> values = new HashMap<>();
         values.put("status", status);
 
         Map<String, Object> params = new HashMap<>();
         params.put("case_run_id", tcRunId);
         params.put("values", values);
-        JSONObject json = (JSONObject) callNameParamService(UPDATE_TC_RUN_METHOD, params);
+        JSONObject json = (JSONObject) callNameParamService(TEST_EXECUTION_UPDATE, params);
         try {
-            return new ObjectMapper().readValue(json.toJSONString(), TestCaseRun.class);
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

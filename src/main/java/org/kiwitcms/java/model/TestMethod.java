@@ -27,7 +27,7 @@ public class TestMethod {
         return containingClass + "." + name;
     }
 
-    public int getKiwiStatus() {
+    public int getTestExecutionStatus() {
         switch (result) {
             case "PASS":
                 return 4;

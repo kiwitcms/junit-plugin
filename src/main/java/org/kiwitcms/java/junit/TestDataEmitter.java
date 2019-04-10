@@ -98,19 +98,19 @@ public class TestDataEmitter {
                 Map<String, Object> filter = new HashMap<>();
                 filter.put("case_id", matchingCaseId);
                 filter.put("run_id", runId);
-                TestCaseRun testCaseRun = client.getTestCaseRun(filter);
-                if (testCaseRun != null) {
-                    client.updateTestCaseRun(testCaseRun.getTcRunId(), test.getKiwiStatus());
+                TestExecution testExecution = client.getTestExecution(filter);
+                if (testExecution != null) {
+                    client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
                 } else {
                     int buildId = getBuild(getProductId());
-                    client.createTestCaseRun(runId, matchingCaseId, buildId, test.getKiwiStatus());
+                    client.createTestExecution(runId, matchingCaseId, buildId, test.getTestExecutionStatus());
                 }
             } else {
                 TestCase addition = client.createNewConfirmedTC(getProductId(), getAvailableCategoryId(getProductId()),
                         getAvailablePriorityId(), test.getKiwiSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
-                TestCaseRun tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
-                client.updateTestCaseRun(tcr.getTcRunId(), test.getKiwiStatus());
+                TestExecution tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
+                client.updateTestExecution(tcr.getTcRunId(), test.getTestExecutionStatus());
             }
         }
     }
