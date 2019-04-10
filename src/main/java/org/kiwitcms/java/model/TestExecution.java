@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TestCaseRun {
+public class TestExecution {
     private int tcRunId;
     private int runId;
     private int caseId;

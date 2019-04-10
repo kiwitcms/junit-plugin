@@ -72,7 +72,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         return testingClient.getPlanIdTestCases(planId);
     }
 
-    public TestCaseRun addTestCaseToRunId(int runId, int caseId) {
+    public TestExecution addTestCaseToRunId(int runId, int caseId) {
         return testingClient.addTestCaseToRunId(runId, caseId);
     }
 
@@ -92,16 +92,16 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
         testingClient.addTestCaseToPlan(planId, caseId);
     }
 
-    public TestCaseRun getTestCaseRun(Map<String, Object> filter) {
-       return testingClient.getTestCaseRun(filter);
+    public TestExecution getTestExecution(Map<String, Object> filter) {
+       return testingClient.getTestExecution(filter);
     }
 
-    public TestCaseRun createTestCaseRun(int runId, int caseId, int build, int status) {
-       return testingClient.createTestCaseRun(runId, caseId, build, status);
+    public TestExecution createTestExecution(int runId, int caseId, int build, int status) {
+       return testingClient.createTestExecution(runId, caseId, build, status);
     }
 
-    public TestCaseRun updateTestCaseRun(int tcRunId, int status) {
-       return testingClient.updateTestCaseRun(tcRunId, status);
+    public TestExecution updateTestExecution(int tcRunId, int status) {
+       return testingClient.updateTestExecution(tcRunId, status);
     }
 
     public String login(String username, String password) {
