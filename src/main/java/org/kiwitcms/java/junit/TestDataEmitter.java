@@ -14,9 +14,9 @@ import java.util.*;
 
 public class TestDataEmitter {
 
-    private Integer productId;
-    private Integer planId;
-    private Integer runId;
+    private static Integer productId;
+    private static Integer planId;
+    private static Integer runId;
 
     private KiwiJsonRpcClient client;
     Config config;
