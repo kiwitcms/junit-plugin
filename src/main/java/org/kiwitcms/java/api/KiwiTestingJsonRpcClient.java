@@ -23,9 +23,9 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
     public static final String CREATE_PLAN_METHOD = "TestPlan.create";
     public static final String TEST_PLAN_FILTER = "TestPlan.filter";
-    public static final String TEST_CASE_RUN_FILTER = "TestCaseRun.filter";
-    public static final String CREATE_TC_RUN_METHOD = "TestCaseRun.create";
-    public static final String UPDATE_TC_RUN_METHOD = "TestCaseRun.update";
+    public static final String TEST_CASE_RUN_FILTER = "TestExecution.filter";
+    public static final String CREATE_TC_RUN_METHOD = "TestExecution.create";
+    public static final String UPDATE_TC_RUN_METHOD = "TestExecution.update";
     public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
     TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
