@@ -16,7 +16,13 @@ Add this into your `pom.xml`:
         <version>x.y.z</version>
     </dependency>
 
-and decorate your test suite with the `KiwiTcmsExtension` class:
+
+This plugin extends `org.junit.jupiter.api.extension.Extension` and has
+`junit.jupiter.extensions.autodetection.enabled=true` configured by default in
+`pom.xml`. This means Jupiter will pick it up automatically.
+
+You may alternatively decorate your test suite with the `KiwiTcmsExtension` class
+but that should be redundant:
 
     import org.junit.jupiter.api.Test;
     import static org.hamcrest.MatcherAssert.assertThat;
