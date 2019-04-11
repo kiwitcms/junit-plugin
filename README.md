@@ -113,3 +113,8 @@ You need your `~/.m2/settings.xml` to look something like this
 To push a new release/SNAPSHOT update the version string in `pom.xml` and do
 
     mvn clean deploy -P release
+
+You will need Maven >= 3.3.9 which on RHEL/CentOS system can be obtained via
+SoftwareCollections:
+
+    scl enable rh-maven35 /bin/bash
