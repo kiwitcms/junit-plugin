@@ -77,6 +77,12 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 6.7.1 (15 April 2019)
+
+- Don't create 2 test runs (Aneta Petkova). Fixes
+  [Issue #41](https://github.com/kiwitcms/junit-plugin/issues/41)
+- Still Beta quality
+
 ### 6.7.0 (10 April 2019)
 
 - Compatible with Kiwi TCMS v6.7 or newer. Fixes
