@@ -37,7 +37,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("priority", priorityId);
         params.put("case_status", caseStatusId);
 
-        JSONObject json = (JSONObject) callPosParamService(CREATE_TC_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_TC_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestCase.class);
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("manager", manager);
         params.put("plan", plan);
         params.put("summary", summary);
-        JSONObject json = (JSONObject) callPosParamService(CREATE_RUN_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_RUN_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestRun.class);
         } catch (IOException e) {
@@ -62,7 +62,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     }
 
     TestCase[] getRunIdTestCases(int runId) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(GET_RUN_TCS_METHOD, Arrays.asList((Object) runId));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(GET_RUN_TCS_METHOD, Arrays.asList((Object) runId));
         try {
             return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     TestCase[] getPlanIdTestCases(int planId) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("plan", planId);
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_CASE_FILTER, Arrays.asList((Object)filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
         try {
             return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("run_id", runId);
         params.put("case_id", caseId);
 
-        JSONObject json = (JSONObject) callNameParamService(ADD_TC_TO_RUN_METHOD, params);
+        JSONObject json = (JSONObject) executeViaNamedParams(ADD_TC_TO_RUN_METHOD, params);
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
@@ -100,7 +100,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
     boolean planExists(int planId) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("pk", planId);
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
         return !jsonArray.isEmpty();
     }
 
@@ -109,7 +109,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         filter.put("name", name);
         filter.put("product", productId);
 
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
         if (jsonArray == null || jsonArray.isEmpty()) {
             return -1;
         } else {
@@ -128,7 +128,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         Map<String, Object> filter = new HashMap<>();
         filter.put("run_id", runId);
 
-        JSONArray jsonArray = (JSONArray) callPosParamService(RUN_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(RUN_FILTER, Arrays.asList((Object) filter));
         if (jsonArray == null || jsonArray.isEmpty()) {
             return null;
         } else {
@@ -146,7 +146,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         // TODO: remove call for plan type
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Unit");
-        JSONArray jsonArray = (JSONArray) callPosParamService("PlanType.filter", Arrays.asList((Object) params));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams("PlanType.filter", Arrays.asList((Object) params));
         Object type = ((JSONObject) jsonArray.get(0)).get("id");
 
         params = new HashMap<>();
@@ -157,7 +157,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("text", "WIP");
         params.put("is_active", true);
         params.put("name", name);
-        JSONObject json = (JSONObject) callPosParamService(CREATE_PLAN_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_PLAN_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestPlan.class);
         } catch (IOException e) {
@@ -171,11 +171,11 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("plan_id", planId);
         params.put("case_id", caseId);
 
-        callNameParamService(ADD_TC_TO_PLAN_METHOD, params);
+        executeViaNamedParams(ADD_TC_TO_PLAN_METHOD, params);
     }
 
     TestExecution getTestExecution(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_EXECUTION_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_EXECUTION_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return null;
         } else {
@@ -196,7 +196,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         params.put("build", build);
         params.put("status", status);
 
-        JSONObject json = (JSONObject) callPosParamService(TEST_EXECUTION_CREATE, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(TEST_EXECUTION_CREATE, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
@@ -212,7 +212,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
         Map<String, Object> params = new HashMap<>();
         params.put("case_run_id", tcRunId);
         params.put("values", values);
-        JSONObject json = (JSONObject) callNameParamService(TEST_EXECUTION_UPDATE, params);
+        JSONObject json = (JSONObject) executeViaNamedParams(TEST_EXECUTION_UPDATE, params);
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
         } catch (IOException e) {
@@ -223,7 +223,7 @@ public class KiwiTestingJsonRpcClient extends BaseRpcClient {
 
     // TODO: Create TestCaseStatus class
     JSONArray getTestCaseStatus(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(TEST_CASE_STATUS_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_STATUS_FILTER, Arrays.asList((Object) filter));
         return jsonArray;
     }
 

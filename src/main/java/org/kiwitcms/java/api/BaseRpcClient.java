@@ -37,7 +37,7 @@ public class BaseRpcClient {
         return mySession;
     }
 
-    protected Object callNameParamService(String serviceMethod, Map<String, Object> params){
+    protected Object executeViaNamedParams(String serviceMethod, Map<String, Object> params){
         JSONRPC2Session mySession = prepareSession();
 
         // Construct new request
@@ -54,7 +54,7 @@ public class BaseRpcClient {
         }
     }
 
-    protected Object callPosParamService(String serviceMethod, List<Object> params){
+    protected Object executeViaPositionalParams(String serviceMethod, List<Object> params){
         JSONRPC2Session mySession = prepareSession();
 
         // Construct new request
