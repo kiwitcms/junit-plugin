@@ -6,7 +6,6 @@ package org.kiwitcms.java.junit;
 
 import net.minidev.json.JSONObject;
 import org.kiwitcms.java.api.RpcClient;
-import org.kiwitcms.java.api.KiwiProductJsonRpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
 
