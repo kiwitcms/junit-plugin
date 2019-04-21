@@ -40,25 +40,25 @@ public class Config {
         return instance;
     }
 
-    public String getKiwiUrl() {
+    public String getUrl() {
         return
                 Optional.ofNullable(config.node("tcms").get("url", null)).
                     orElse(System.getenv("TCMS_API_URL"));
     }
 
-    public String getKiwiUsername() {
+    public String getUsername() {
         return
                 Optional.ofNullable(config.node("tcms").get("username", null)).
                     orElse(System.getenv("TCMS_USERNAME"));
     }
 
-    public String getKiwiPassword() {
+    public String getPassword() {
         return
                 Optional.ofNullable(config.node("tcms").get("password", null)).
                     orElse(System.getenv("TCMS_PASSWORD"));
     }
 
-    public Integer getKiwiRunId() {
+    public Integer getRunId() {
         String runId = System.getenv("TCMS_RUN_ID");
         if (runId == null) {
             return null;
@@ -82,7 +82,7 @@ public class Config {
                                                 orElse(System.getenv("GIT_COMMIT"))));
     }
 
-    public String getKiwiBuild() {
+    public String getBuild() {
         return
                 Optional.ofNullable(System.getenv("TCMS_BUILD")).
                         orElse(Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).

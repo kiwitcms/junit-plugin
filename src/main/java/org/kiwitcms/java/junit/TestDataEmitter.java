@@ -47,7 +47,7 @@ public class TestDataEmitter {
 
     public int getPlanId() {
         if (planId == null) {
-            Integer confRunId = config.getKiwiRunId();
+            Integer confRunId = config.getRunId();
             if (confRunId != null) {
                 TestRun run = client.getRun(confRunId);
                 if (run != null) {
@@ -71,17 +71,17 @@ public class TestDataEmitter {
 
     public int getTestRunId() {
         if (runId == null) {
-            Integer testRun = config.getKiwiRunId();
+            Integer testRun = config.getRunId();
             if (testRun != null && client.getRun(testRun) != null) {
                 runId = testRun;
             } else {
                 runId = client.createNewRun(getBuild(getProductId()),
-                        config.getKiwiUsername(),
+                        config.getUsername(),
                         getPlanId(),
                         String.format("[JUnit] Results for %s, %s, %s",
                                 config.getProduct(),
                                 config.getProductVersion(),
-                                config.getKiwiBuild())).getId();
+                                config.getBuild())).getId();
             }
         }
         return runId;
@@ -93,7 +93,7 @@ public class TestDataEmitter {
             existingTests = client.getPlanIdTestCases(getPlanId());
         }
         for (TestMethod test : tests) {
-            Integer matchingCaseId = TestCase.nameExists(test.getKiwiSummary(), existingTests);
+            Integer matchingCaseId = TestCase.nameExists(test.getSummary(), existingTests);
             if (matchingCaseId != null) {
                 Map<String, Object> filter = new HashMap<>();
                 filter.put("case_id", matchingCaseId);
@@ -107,7 +107,7 @@ public class TestDataEmitter {
                 }
             } else {
                 TestCase addition = client.createNewConfirmedTC(getProductId(), getAvailableCategoryId(getProductId()),
-                        getAvailablePriorityId(), test.getKiwiSummary());
+                        getAvailablePriorityId(), test.getSummary());
                 client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
                 TestExecution tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
                 client.updateTestExecution(tcr.getTcRunId(), test.getTestExecutionStatus());
@@ -116,7 +116,7 @@ public class TestDataEmitter {
     }
 
     public int getBuild(int productId) {
-        String confBuild = config.getKiwiBuild();
+        String confBuild = config.getBuild();
         Map<String, Object> filter = new HashMap<>();
         filter.put("product", productId);
         if (confBuild != null) {

@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class BaseRpcClient {
 
-    public static final String BASE_URL = Config.getInstance().getKiwiUrl();
+    public static final String BASE_URL = Config.getInstance().getUrl();
 
     protected static String sessionId;
 

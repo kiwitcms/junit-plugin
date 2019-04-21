@@ -23,7 +23,7 @@ public class TestMethod {
         this.result = result;
     }
 
-    public String getKiwiSummary() {
+    public String getSummary() {
         return containingClass + "." + name;
     }
 
