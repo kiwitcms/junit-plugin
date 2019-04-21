@@ -32,7 +32,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
 
     //TODO: Seems a bad practice, remove/replace
     public String login() {
-        return login(Config.getInstance().getKiwiUsername(), Config.getInstance().getKiwiPassword());
+        return login(Config.getInstance().getUsername(), Config.getInstance().getPassword());
     }
 
     public void logout() {

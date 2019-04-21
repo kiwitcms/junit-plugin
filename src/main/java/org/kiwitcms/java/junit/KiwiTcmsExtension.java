@@ -23,7 +23,7 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
 
     public void beforeAll(ExtensionContext context) throws ConfigurationException {
         Config config = Config.getInstance();
-        if (config.getKiwiUrl().isEmpty() || config.getKiwiUsername().isEmpty() || config.getKiwiPassword().isEmpty()){
+        if (config.getUrl().isEmpty() || config.getUsername().isEmpty() || config.getPassword().isEmpty()){
             throw new ConfigurationException("API URL, username and password must be configured");
         }
         tests = new ArrayList<>();
