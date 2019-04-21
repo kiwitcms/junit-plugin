@@ -18,6 +18,7 @@ public class TestDataEmitter {
     private static Integer runId;
 
     private RpcClient client;
+    private TestCase[] casesInTestRun;
     Config config;
 
     public TestDataEmitter() {
@@ -83,34 +84,23 @@ public class TestDataEmitter {
                                 config.getBuild())).getId();
             }
         }
+        casesInTestRun = client.getRunIdTestCases(runId);
         return runId;
     }
 
     public void addTestResultsToRun(int runId, List<TestMethod> tests) {
-        TestCase[] existingTests = client.getRunIdTestCases(runId);
-        if (existingTests.length == 0){
-            existingTests = client.getPlanIdTestCases(getPlanId());
-        }
+        int productId  = getProductId();
+        int categoryId = getAvailableCategoryId(productId);
+        int priorityId = getAvailablePriorityId();
+        int testPlanId = getPlanId();
+
         for (TestMethod test : tests) {
-            Integer matchingCaseId = TestCase.nameExists(test.getSummary(), existingTests);
-            if (matchingCaseId != null) {
-                Map<String, Object> filter = new HashMap<>();
-                filter.put("case_id", matchingCaseId);
-                filter.put("run_id", runId);
-                TestExecution testExecution = client.getTestExecution(filter);
-                if (testExecution != null) {
-                    client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
-                } else {
-                    int buildId = getBuild(getProductId());
-                    client.createTestExecution(runId, matchingCaseId, buildId, test.getTestExecutionStatus());
-                }
-            } else {
-                TestCase addition = client.createNewConfirmedTC(getProductId(), getAvailableCategoryId(getProductId()),
-                        getAvailablePriorityId(), test.getSummary());
-                client.addTestCaseToPlan(getPlanId(), addition.getCaseId());
-                TestExecution tcr = client.addTestCaseToRunId(runId, addition.getCaseId());
-                client.updateTestExecution(tcr.getTcRunId(), test.getTestExecutionStatus());
-            }
+            TestCase testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
+            client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
+// todo: does this check for existing ???
+            TestExecution testExecution = client.addTestCaseToRunId(runId, testCase.getCaseId());
+
+            client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
         }
     }
 

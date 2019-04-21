@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.*;
 public class TestingRpcTest {
 
     @Test
-    public void createNewTCTest() {
+    public void createTestCaseTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // props to test
@@ -50,7 +50,7 @@ public class TestingRpcTest {
         expectedTC.setCategoryId(4);
         expectedTC.setPriorityId(0);
         expectedTC.setSummary("Test Summary");
-        assertThat(spy.createNewTC(33, 4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
+        assertThat(spy.createTestCase(33, 4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
     }
 
     @Test

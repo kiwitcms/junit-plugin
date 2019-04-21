@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2019 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -71,7 +72,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
-    public TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
+    public TestCase createTestCase(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
         Map<String, Object> params = new HashMap<>();
         params.put("product", productId);
         params.put("category", categoryId);
@@ -89,9 +90,23 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
-    public TestCase createNewConfirmedTC(int productId, int categoryId, int priorityId, String summary) {
-        int caseStatusId = getConfirmedTCStatusId();
-        return createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
+    public TestCase getOrCreateTestCase(int productId, int categoryId, int priorityId, String summary) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("summary", summary);
+        filter.put("category__product", productId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            int caseStatusId = getConfirmedTCStatusId();
+            return createTestCase(productId, categoryId, priorityId, caseStatusId, summary);
+        }
+
+        try {
+            TestCase[] testCases = new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+            return testCases[0];
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
@@ -111,18 +126,6 @@ public class RpcClient extends BaseRpcClient {
 
     public TestCase[] getRunIdTestCases(int runId) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(GET_RUN_TCS_METHOD, Arrays.asList((Object) runId));
-        try {
-            return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new TestCase[0];
-        }
-    }
-
-    public TestCase[] getPlanIdTestCases(int planId) {
-        Map<String, Object> filter = new HashMap<>();
-        filter.put("plan", planId);
-        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
         try {
             return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
         } catch (IOException e) {
@@ -214,11 +217,14 @@ public class RpcClient extends BaseRpcClient {
     }
 
     public void addTestCaseToPlan(int planId, int caseId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("plan_id", planId);
-        params.put("case_id", caseId);
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("pk", caseId);
+        filter.put("plan", planId);
 
-        executeViaNamedParams(ADD_TC_TO_PLAN_METHOD, params);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            executeViaPositionalParams(ADD_TC_TO_PLAN_METHOD, Arrays.asList(planId, caseId));
+        }
     }
 
     public TestExecution getTestExecution(Map<String, Object> filter) {
