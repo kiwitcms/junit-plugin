@@ -104,7 +104,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     }
 
     public String login(String username, String password) {
-        sessionId = (String) callPosParamService(LOGIN_METHOD, Arrays.asList(username, password));
+        sessionId = (String) executeViaPositionalParams(LOGIN_METHOD, Arrays.asList(username, password));
         return sessionId;
     }
 

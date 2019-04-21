@@ -23,7 +23,7 @@ public class KiwiJsonRpcClientTest {
         KiwiJsonRpcClient spy = Mockito.spy(new KiwiJsonRpcClient());
 
         // Prevent/stub logic in super.method()
-        Mockito.doReturn("fakeToken").when((BaseRpcClient) spy).callPosParamService(eq(LOGIN_METHOD), anyList());
+        Mockito.doReturn("fakeToken").when((BaseRpcClient) spy).executeViaPositionalParams(eq(LOGIN_METHOD), anyList());
 
         assertThat(spy.login("daenerys", "targaryen"), is(equalTo("fakeToken")));
     }
@@ -33,7 +33,7 @@ public class KiwiJsonRpcClientTest {
         KiwiJsonRpcClient spy = Mockito.spy(new KiwiJsonRpcClient());
 
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(null).when((BaseRpcClient) spy).callPosParamService(eq(LOGIN_METHOD), anyList());
+        Mockito.doReturn(null).when((BaseRpcClient) spy).executeViaPositionalParams(eq(LOGIN_METHOD), anyList());
 
         assertThat(spy.login("daenerys", "targaryen"), is(equalTo(null)));
     }

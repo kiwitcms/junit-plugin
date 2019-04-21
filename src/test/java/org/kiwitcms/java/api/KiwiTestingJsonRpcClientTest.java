@@ -41,8 +41,8 @@ public class KiwiTestingJsonRpcClientTest {
         json.put(caseStatusId, 1);
         json.put(summary, "Test Summary");
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(1).when((BaseRpcClient) spy).callPosParamService(eq(TEST_CASE_STATUS_FILTER), anyList());
-        Mockito.doReturn(json).when((BaseRpcClient) spy).callPosParamService(eq(CREATE_TC_METHOD), anyList());
+        Mockito.doReturn(1).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_STATUS_FILTER), anyList());
+        Mockito.doReturn(json).when((BaseRpcClient) spy).executeViaPositionalParams(eq(CREATE_TC_METHOD), anyList());
 
         TestCase expectedTC = new TestCase();
         //inconsistent tcms behaviour
@@ -63,7 +63,7 @@ public class KiwiTestingJsonRpcClientTest {
         JSONArray array = new JSONArray();
         array.add(json);
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(array).when((BaseRpcClient) spy).callPosParamService(anyString(), anyList());
+        Mockito.doReturn(array).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
 
         TestRun expectedResult = new TestRun();
         expectedResult.seId(1);
@@ -75,7 +75,7 @@ public class KiwiTestingJsonRpcClientTest {
         KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
 
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(null).when((BaseRpcClient) spy).callPosParamService(anyString(), anyList());
+        Mockito.doReturn(null).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
         assertThat(spy.getRun(1), is(equalTo(null)));
     }
 
@@ -84,7 +84,7 @@ public class KiwiTestingJsonRpcClientTest {
         KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
 
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(new JSONArray()).when((BaseRpcClient) spy).callPosParamService(anyString(), anyList());
+        Mockito.doReturn(new JSONArray()).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
         assertThat(spy.getRun(-1), is(equalTo(null)));
     }
 
@@ -98,7 +98,7 @@ public class KiwiTestingJsonRpcClientTest {
         JSONArray array = new JSONArray();
         array.add(json);
         // Prevent/stub logic in super.method()
-        Mockito.doReturn(array).when((BaseRpcClient) spy).callPosParamService(anyString(), anyList());
+        Mockito.doReturn(array).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
 
         assertThat(spy.getRun(1), is(equalTo(null)));
     }

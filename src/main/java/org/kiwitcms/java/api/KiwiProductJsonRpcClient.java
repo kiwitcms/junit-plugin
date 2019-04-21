@@ -27,7 +27,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
     Integer getProductId(String name) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("name", name);
-        JSONArray jsonArray = (JSONArray) callPosParamService(PRODUCT_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(PRODUCT_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return null;
         } else {
@@ -46,13 +46,13 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
 
         // TODO: move classification filtering in emitter
         // get the first possible classification
-        JSONArray jsonArray = (JSONArray) callPosParamService("Classification.filter", Arrays.asList((Object) params));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams("Classification.filter", Arrays.asList((Object) params));
         Object classificationId = ((JSONObject) jsonArray.get(0)).get("id");
 
         params.put("name", name);
         params.put("classification_id", classificationId);
 
-        JSONObject json = (JSONObject) callPosParamService(CREATE_PRODUCT_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_PRODUCT_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), Product.class);
         } catch (IOException e) {
@@ -62,7 +62,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
     }
 
     Build[] getBuilds(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(BUILD_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(BUILD_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return new Build[0];
         } else {
@@ -80,7 +80,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
         params.put("product", productId);
-        JSONObject json = (JSONObject) callPosParamService(CREATE_BUILD_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_BUILD_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), Build.class);
         } catch (IOException e) {
@@ -90,7 +90,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
     }
 
     Version[] getVersions(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(VERSION_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(VERSION_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return new Version[0];
         } else {
@@ -109,7 +109,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
         params.put("value", version);
         params.put("product", productId);
 
-        JSONObject json = (JSONObject) callPosParamService(CREATE_VERSION_METHOD, Arrays.asList((Object) params));
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_VERSION_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), Version.class);
         } catch (IOException e) {
@@ -119,7 +119,7 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
     }
 
     Priority[] getPriority(Map<String, Object> filter) {
-        JSONArray jsonArray = (JSONArray) callPosParamService(PRIORITY_FILTER, Arrays.asList((Object) filter));
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(PRIORITY_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
             return new Priority[0];
         } else {
@@ -134,6 +134,6 @@ public class KiwiProductJsonRpcClient extends BaseRpcClient {
 
     // TODO: Create Category class
     JSONArray getCategory(Map<String, Object> filter) {
-        return (JSONArray) callPosParamService(CATEGORY_FILTER, Arrays.asList((Object) filter));
+        return (JSONArray) executeViaPositionalParams(CATEGORY_FILTER, Arrays.asList((Object) filter));
     }
 }
