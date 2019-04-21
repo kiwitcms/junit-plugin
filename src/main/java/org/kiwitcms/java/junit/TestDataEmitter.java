@@ -24,7 +24,7 @@ public class TestDataEmitter {
     public TestDataEmitter() {
         config = Config.getInstance();
         client = new RpcClient();
-        client.login();
+        client.login(config.getUsername(), config.getPassword());
     }
 
     public int getProductId() {

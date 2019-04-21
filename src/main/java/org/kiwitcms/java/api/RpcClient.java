@@ -30,9 +30,9 @@ public class RpcClient extends BaseRpcClient {
         testingClient = new KiwiTestingJsonRpcClient();
     }
 
-    //TODO: Seems a bad practice, remove/replace
-    public String login() {
-        return login(Config.getInstance().getUsername(), Config.getInstance().getPassword());
+    public String login(String username, String password) {
+        sessionId = (String) executeViaPositionalParams(LOGIN_METHOD, Arrays.asList(username, password));
+        return sessionId;
     }
 
     public void logout() {
@@ -101,11 +101,6 @@ public class RpcClient extends BaseRpcClient {
 
     public TestExecution updateTestExecution(int tcRunId, int status) {
        return testingClient.updateTestExecution(tcRunId, status);
-    }
-
-    public String login(String username, String password) {
-        sessionId = (String) executeViaPositionalParams(LOGIN_METHOD, Arrays.asList(username, password));
-        return sessionId;
     }
 
     public Integer getProductId(String name) {
