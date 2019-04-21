@@ -36,12 +36,20 @@ public class RpcClient extends BaseRpcClient {
     private static final String PRIORITY_FILTER = "Priority.filter";
     private static final String CATEGORY_FILTER = "Category.filter";
 
-    private KiwiTestingJsonRpcClient testingClient;
+    public static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
+    public static final String CREATE_RUN_METHOD = "TestRun.create";
+    public static final String CREATE_TC_METHOD = "TestCase.create";
+    public static final String TEST_CASE_FILTER = "TestCase.filter";
+    public static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
+    public static final String RUN_FILTER = "TestRun.filter";
+    public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
+    public static final String CREATE_PLAN_METHOD = "TestPlan.create";
+    public static final String TEST_PLAN_FILTER = "TestPlan.filter";
+    public static final String TEST_EXECUTION_FILTER = "TestExecution.filter";
+    public static final String TEST_EXECUTION_CREATE = "TestExecution.create";
+    public static final String TEST_EXECUTION_UPDATE = "TestExecution.update";
+    public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
-    public RpcClient(){
-        super();
-        testingClient = new KiwiTestingJsonRpcClient();
-    }
 
     public String login(String username, String password) {
         sessionId = (String) executeViaPositionalParams(LOGIN_METHOD, Arrays.asList(username, password));
@@ -64,58 +72,215 @@ public class RpcClient extends BaseRpcClient {
     }
 
     public TestCase createNewTC(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
-        return testingClient.createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
+        Map<String, Object> params = new HashMap<>();
+        params.put("product", productId);
+        params.put("category", categoryId);
+        params.put("summary", summary);
+        params.put("is_automated", "true");
+        params.put("priority", priorityId);
+        params.put("case_status", caseStatusId);
+
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_TC_METHOD, Arrays.asList((Object) params));
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestCase.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public TestCase createNewConfirmedTC(int productId, int categoryId, int priorityId, String summary) {
-        int caseStatusId = testingClient.getConfirmedTCStatusId();
-        return testingClient.createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
+        int caseStatusId = getConfirmedTCStatusId();
+        return createNewTC(productId, categoryId, priorityId, caseStatusId, summary);
     }
 
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
-       return testingClient.createNewRun(build, manager, plan, summary);
+        Map<String, Object> params = new HashMap<>();
+        params.put("build", build);
+        params.put("manager", manager);
+        params.put("plan", plan);
+        params.put("summary", summary);
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_RUN_METHOD, Arrays.asList((Object) params));
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestRun.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public TestCase[] getRunIdTestCases(int runId) {
-        return testingClient.getRunIdTestCases(runId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(GET_RUN_TCS_METHOD, Arrays.asList((Object) runId));
+        try {
+            return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new TestCase[0];
+        }
     }
 
     public TestCase[] getPlanIdTestCases(int planId) {
-        return testingClient.getPlanIdTestCases(planId);
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("plan", planId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
+        try {
+            return new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new TestCase[0];
+        }
     }
 
     public TestExecution addTestCaseToRunId(int runId, int caseId) {
-        return testingClient.addTestCaseToRunId(runId, caseId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("run_id", runId);
+        params.put("case_id", caseId);
+
+        JSONObject json = (JSONObject) executeViaNamedParams(ADD_TC_TO_RUN_METHOD, params);
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean planExists(int planId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("pk", planId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
+        return !jsonArray.isEmpty();
+    }
+
+    public int getTestPlanId(String name, int productId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("name", name);
+        filter.put("product", productId);
+
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_PLAN_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            return -1;
+        } else {
+            try {
+                TestPlan[] plans = new ObjectMapper().readValue(jsonArray.toJSONString(), TestPlan[].class);
+                return plans[0].getId();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
     }
 
     public TestRun getRun(int runId) {
-        return testingClient.getRun(runId);
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("run_id", runId);
+
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(RUN_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            return null;
+        } else {
+            try {
+                TestRun[] run = new ObjectMapper().readValue(jsonArray.toJSONString(), TestRun[].class);
+                return run[0];
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
     public TestPlan createNewTP(int productId, String name, int versionId) {
-        return testingClient.createNewTP(productId, name, versionId);
-    }
+        // TODO: remove call for plan type
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "Unit");
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams("PlanType.filter", Arrays.asList((Object) params));
+        Object type = ((JSONObject) jsonArray.get(0)).get("id");
 
-    public int getTestPlanId(String name, int productId){
-        return testingClient.getTestPlanId(name, productId);
+        params = new HashMap<>();
+        params.put("product", productId);
+        params.put("type", type);
+        params.put("default_product_version", 0);
+        params.put("product_version", versionId);
+        params.put("text", "WIP");
+        params.put("is_active", true);
+        params.put("name", name);
+        JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_PLAN_METHOD, Arrays.asList((Object) params));
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestPlan.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addTestCaseToPlan(int planId, int caseId) {
-        testingClient.addTestCaseToPlan(planId, caseId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("plan_id", planId);
+        params.put("case_id", caseId);
+
+        executeViaNamedParams(ADD_TC_TO_PLAN_METHOD, params);
     }
 
     public TestExecution getTestExecution(Map<String, Object> filter) {
-       return testingClient.getTestExecution(filter);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_EXECUTION_FILTER, Arrays.asList((Object) filter));
+        if (jsonArray.isEmpty()) {
+            return null;
+        } else {
+            try {
+                TestExecution[] tcRun = new ObjectMapper().readValue(jsonArray.toJSONString(), TestExecution[].class);
+                return tcRun[0];
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
     public TestExecution createTestExecution(int runId, int caseId, int build, int status) {
-       return testingClient.createTestExecution(runId, caseId, build, status);
+        Map<String, Object> params = new HashMap<>();
+        params.put("run", runId);
+        params.put("case", caseId);
+        params.put("build", build);
+        params.put("status", status);
+
+        JSONObject json = (JSONObject) executeViaPositionalParams(TEST_EXECUTION_CREATE, Arrays.asList((Object) params));
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public TestExecution updateTestExecution(int tcRunId, int status) {
-       return testingClient.updateTestExecution(tcRunId, status);
+        Map<String, Object> values = new HashMap<>();
+        values.put("status", status);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("case_run_id", tcRunId);
+        params.put("values", values);
+        JSONObject json = (JSONObject) executeViaNamedParams(TEST_EXECUTION_UPDATE, params);
+        try {
+            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    // TODO: Create TestCaseStatus class
+    public JSONArray getTestCaseStatus(Map<String, Object> filter) {
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_STATUS_FILTER, Arrays.asList((Object) filter));
+        return jsonArray;
+    }
+
+    //Get first available
+    public int getConfirmedTCStatusId() {
+        Map<String, Object> confirmed_params = new HashMap<>();
+        confirmed_params.put("name", "CONFIRMED");
+        Object id = ((JSONObject) getTestCaseStatus(confirmed_params).get(0)).get("id");
+        return Integer.parseInt(String.valueOf(id));
+    }
 
     public Integer getProductId(String name) {
         Map<String, Object> filter = new HashMap<>();

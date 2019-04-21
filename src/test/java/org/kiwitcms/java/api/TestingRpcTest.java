@@ -15,16 +15,16 @@ import org.mockito.Mockito;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.kiwitcms.java.api.KiwiTestingJsonRpcClient.CREATE_TC_METHOD;
-import static org.kiwitcms.java.api.KiwiTestingJsonRpcClient.TEST_CASE_STATUS_FILTER;
+import static org.kiwitcms.java.api.RpcClient.CREATE_TC_METHOD;
+import static org.kiwitcms.java.api.RpcClient.TEST_CASE_STATUS_FILTER;
 import static org.mockito.ArgumentMatchers.*;
 
 
-public class KiwiTestingJsonRpcClientTest {
+public class TestingRpcTest {
 
     @Test
     public void createNewTCTest() {
-        KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // props to test
         String categoryId = "category_id";
@@ -55,7 +55,7 @@ public class KiwiTestingJsonRpcClientTest {
 
     @Test
     public void getRunWhenValidIdTest() {
-        KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // test object
         JSONObject json = new JSONObject();
@@ -72,7 +72,7 @@ public class KiwiTestingJsonRpcClientTest {
 
     @Test
     public void getRunWhenServiceErrorTest() {
-        KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
         Mockito.doReturn(null).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
@@ -81,7 +81,7 @@ public class KiwiTestingJsonRpcClientTest {
 
     @Test
     public void getRunWhenMissingIdTest() {
-        KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
         Mockito.doReturn(new JSONArray()).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
@@ -90,7 +90,7 @@ public class KiwiTestingJsonRpcClientTest {
 
     @Test
     public void getRunWhenServiceResponceMisformattedTest() {
-        KiwiTestingJsonRpcClient spy = Mockito.spy(new KiwiTestingJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // test object
         JSONObject json = new JSONObject();
