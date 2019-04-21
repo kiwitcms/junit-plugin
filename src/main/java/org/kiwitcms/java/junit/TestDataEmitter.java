@@ -72,9 +72,13 @@ public class TestDataEmitter {
     public int getTestRunId() {
         if (runId == null) {
             Integer testRun = config.getRunId();
-            if (testRun != null && client.getRun(testRun) != null) {
-                runId = testRun;
-            } else {
+            if (testRun != null) {
+                runId = client.getRun(testRun).getId();
+            }
+
+//TODO: this must check if this TR is already available in the DB
+// and not create a new TR for the same product, version and build
+            if (runId == null) {
                 runId = client.createNewRun(getBuild(getProductId()),
                         config.getUsername(),
                         getPlanId(),
@@ -97,7 +101,8 @@ public class TestDataEmitter {
         for (TestMethod test : tests) {
             TestCase testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
             client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
-// todo: does this check for existing ???
+// TODO: this method should accept casesInTestRun and not call RPC if the TestCase
+// has already been added inside the TestRun
             TestExecution testExecution = client.addTestCaseToRunId(runId, testCase.getCaseId());
 
             client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
