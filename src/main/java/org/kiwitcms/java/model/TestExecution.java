@@ -60,8 +60,4 @@ public class TestExecution {
     public void setStatus(String status) {
         this.status = status;
     }
-
-
-//    [{"case_text_version":0,"close_date":"2019-01-27 00:24:34","run_id":706,"case_run_id":2799,"run":"Automatic test run","tested_by_id":2259,"tested_by":"apetkova","sortkey":0,"status_id":4,"build_id":1,"build":"unspecified","case_id":3431,"assignee":null,"case":"KiwiJsonRpcClientTest.loginWithEmptyParamsTest1","assignee_id":null,"status":"PASSED"}]
-
 }

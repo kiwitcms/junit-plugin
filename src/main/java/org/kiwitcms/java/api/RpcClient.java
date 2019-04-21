@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 
-public class KiwiJsonRpcClient extends BaseRpcClient {
+public class RpcClient extends BaseRpcClient {
 
     public static final String LOGIN_METHOD = "Auth.login";
     public static final String LOGOUT_METHOD = "Auth.logout";
@@ -24,7 +24,7 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
     private KiwiProductJsonRpcClient productClient;
     private KiwiTestingJsonRpcClient testingClient;
 
-    public KiwiJsonRpcClient(){
+    public RpcClient(){
         super();
         productClient = new KiwiProductJsonRpcClient();
         testingClient = new KiwiTestingJsonRpcClient();
