@@ -7,6 +7,7 @@ install:
         echo "password = $TCMS_PASSWORD" >> ~/.tcms.conf
 
 script:
+  - mvn checkstyle:checkstyle
   - ./bin/test
 
 notifications:
