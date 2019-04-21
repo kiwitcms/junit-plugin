@@ -36,18 +36,18 @@ public class RpcClient extends BaseRpcClient {
     private static final String PRIORITY_FILTER = "Priority.filter";
     private static final String CATEGORY_FILTER = "Category.filter";
 
-    public static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
-    public static final String CREATE_RUN_METHOD = "TestRun.create";
+    private static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
+    private static final String CREATE_RUN_METHOD = "TestRun.create";
     public static final String CREATE_TC_METHOD = "TestCase.create";
-    public static final String TEST_CASE_FILTER = "TestCase.filter";
-    public static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
-    public static final String RUN_FILTER = "TestRun.filter";
-    public static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
-    public static final String CREATE_PLAN_METHOD = "TestPlan.create";
-    public static final String TEST_PLAN_FILTER = "TestPlan.filter";
-    public static final String TEST_EXECUTION_FILTER = "TestExecution.filter";
-    public static final String TEST_EXECUTION_CREATE = "TestExecution.create";
-    public static final String TEST_EXECUTION_UPDATE = "TestExecution.update";
+    private static final String TEST_CASE_FILTER = "TestCase.filter";
+    private static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
+    private static final String RUN_FILTER = "TestRun.filter";
+    private static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
+    private static final String CREATE_PLAN_METHOD = "TestPlan.create";
+    private static final String TEST_PLAN_FILTER = "TestPlan.filter";
+    private static final String TEST_EXECUTION_FILTER = "TestExecution.filter";
+    private static final String TEST_EXECUTION_CREATE = "TestExecution.create";
+    private static final String TEST_EXECUTION_UPDATE = "TestExecution.update";
     public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
 
