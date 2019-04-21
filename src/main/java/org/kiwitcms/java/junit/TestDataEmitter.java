@@ -5,7 +5,7 @@
 package org.kiwitcms.java.junit;
 
 import net.minidev.json.JSONObject;
-import org.kiwitcms.java.api.KiwiJsonRpcClient;
+import org.kiwitcms.java.api.RpcClient;
 import org.kiwitcms.java.api.KiwiProductJsonRpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
@@ -18,12 +18,12 @@ public class TestDataEmitter {
     private static Integer planId;
     private static Integer runId;
 
-    private KiwiJsonRpcClient client;
+    private RpcClient client;
     Config config;
 
     public TestDataEmitter() {
         config = Config.getInstance();
-        client = new KiwiJsonRpcClient();
+        client = new RpcClient();
         client.login();
     }
 

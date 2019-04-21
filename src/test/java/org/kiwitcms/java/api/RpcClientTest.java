@@ -13,14 +13,14 @@ import static org.mockito.ArgumentMatchers.*;
 
 import org.mockito.Mockito;
 
-import static org.kiwitcms.java.api.KiwiJsonRpcClient.*;
+import static org.kiwitcms.java.api.RpcClient.*;
 
 
-public class KiwiJsonRpcClientTest {
+public class RpcClientTest {
 
     @Test
     void loginWithCorrectCredentialsTest() {
-        KiwiJsonRpcClient spy = Mockito.spy(new KiwiJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
         Mockito.doReturn("fakeToken").when((BaseRpcClient) spy).executeViaPositionalParams(eq(LOGIN_METHOD), anyList());
@@ -30,7 +30,7 @@ public class KiwiJsonRpcClientTest {
 
     @Test
     void loginWithIncorrectCredentials() {
-        KiwiJsonRpcClient spy = Mockito.spy(new KiwiJsonRpcClient());
+        RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
         Mockito.doReturn(null).when((BaseRpcClient) spy).executeViaPositionalParams(eq(LOGIN_METHOD), anyList());
