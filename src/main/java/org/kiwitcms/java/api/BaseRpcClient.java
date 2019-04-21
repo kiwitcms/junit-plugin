@@ -33,13 +33,12 @@ public class BaseRpcClient {
         JSONRPC2Session mySession = new JSONRPC2Session(serverURL);
         mySession.getOptions().setRequestContentType("application/json");
         mySession.getOptions().trustAllCerts(true);
+        mySession.setConnectionConfigurator(new SessionConfigurator(sessionId));
         return mySession;
     }
 
     protected Object callNameParamService(String serviceMethod, Map<String, Object> params){
-
         JSONRPC2Session mySession = prepareSession();
-        mySession.setConnectionConfigurator(new SessionConfigurator(sessionId));
 
         // Construct new request
         int requestID = 1;
@@ -56,9 +55,7 @@ public class BaseRpcClient {
     }
 
     protected Object callPosParamService(String serviceMethod, List<Object> params){
-
         JSONRPC2Session mySession = prepareSession();
-        mySession.setConnectionConfigurator(new SessionConfigurator(sessionId));
 
         // Construct new request
         int requestID = 1;

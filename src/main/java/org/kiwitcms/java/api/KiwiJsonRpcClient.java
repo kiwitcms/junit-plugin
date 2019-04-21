@@ -37,7 +37,6 @@ public class KiwiJsonRpcClient extends BaseRpcClient {
 
     public void logout() {
         JSONRPC2Session mySession = prepareSession();
-        mySession.setConnectionConfigurator(new SessionConfigurator(sessionId));
 
         // Construct new request
         int requestID = 1;
