@@ -52,5 +52,4 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
             tests.add(test);
         }
     }
-
 }
