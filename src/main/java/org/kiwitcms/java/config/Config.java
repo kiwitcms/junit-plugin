@@ -63,7 +63,7 @@ public class Config {
         if (runId == null) {
             return null;
         } else {
-            return Integer.getInteger(runId);
+            return Integer.parseInt(runId);
         }
     }
 
