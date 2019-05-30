@@ -77,6 +77,22 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 6.7.3 (30 May 2019)
+
+Fixes moderate severity issue
+[CVE-2019-12086](https://nvd.nist.gov/vuln/detail/CVE-2019-12086)
+
+- Test and build with openjdk8
+- Bump jacoco-maven-plugin from 0.8.3 to 0.8.4
+- Bump maven-compiler-plugin from 3.8.0 to 3.8.1
+- Bump maven-source-plugin from 3.0.1 to 3.1.0
+- Bump maven-checkstyle-plugin from 3.0.0 to 3.1.0
+- Bump commons-configuration2 from 2.4 to 2.5
+- Bump mockito-core from 2.27.0 to 2.28.2
+- Bump jackson-core from 2.9.8 to 2.9.9
+- Bump jackson-databind from 2.9.8 to 2.9.9
+
+
 ### 6.7.2 (01 May 2019)
 
 - Don't create duplicate TestCases. Fixes
