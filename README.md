@@ -77,6 +77,13 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 6.7.4 (06 July 2019)
+
+- Bump junit-jupiter-api from 5.5.0-M1 to 5.5.0
+- Bump junit-jupiter-engine from 5.5.0-M1 to 5.5.0
+- Bump junit-platform-launcher from 1.4.2 to 1.5.0
+
+
 ### 6.7.3 (30 May 2019)
 
 Fixes moderate severity issue
