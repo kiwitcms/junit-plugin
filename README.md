@@ -178,6 +178,9 @@ To push a new release/SNAPSHOT update the version string in `pom.xml` and do
 
     mvn clean deploy -P release
 
+WARNING: consider setting `junit.jupiter.extensions.autodetection.enabled=false`
+im `pom.xml` if you are having problems building locally!
+
 You will need Maven >= 3.3.9 which on RHEL/CentOS system can be obtained via
 SoftwareCollections:
 
