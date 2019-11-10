@@ -77,6 +77,29 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+
+### 6.7.5 (10 Nov 2019)
+
+Fixes moderate severity issue
+[CVE-2019-16942](https://github.com/advisories/GHSA-mx7p-6679-8g3q),
+critical severity issue
+[CVE-2019-16335](https://github.com/advisories/GHSA-85cw-hj65-qqv9)
+and critical severity issue
+[CVE-2019-14540](https://github.com/advisories/GHSA-h822-r4r5-v8jg).
+
+- Bump commons-beanutils from 1.9.3 to 1.9.4
+- Bump jackson-core from 2.9.9 to 2.10.0
+- Bump jackson-databind from 2.9.9 to 2.9.10.1
+- Bump jacoco-maven-plugin from 0.8.4 to 0.8.5
+- Bump junit-jupiter-api from 5.5.0 to 5.5.2
+- Bump junit-jupiter-engine from 5.5.0 to 5.5.2
+- Bump junit-platform-launcher from 1.5.0 to 1.5.2
+- Bump hamcrest from 2.1 to 2.2
+- Bump maven-javadoc-plugin from 3.1.0 to 3.1.1
+- Bump maven-source-plugin from 3.1.0 to 3.2.0
+- Bump mockito-core from 2.28.2 to 3.1.0
+
+
 ### 6.7.4 (06 July 2019)
 
 - Bump junit-jupiter-api from 5.5.0-M1 to 5.5.0
