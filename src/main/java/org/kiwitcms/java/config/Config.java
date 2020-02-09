@@ -60,10 +60,11 @@ public class Config {
 
     public Integer getRunId() {
         String runId = System.getenv("TCMS_RUN_ID");
+
         if (runId == null) {
             return null;
         } else {
-            return Integer.getInteger(runId);
+            return Integer.parseInt(runId.trim());
         }
     }
 
