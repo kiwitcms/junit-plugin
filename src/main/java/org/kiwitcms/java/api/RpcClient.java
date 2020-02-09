@@ -1,5 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
-// Copyright (c) 2019 Alexander Todorov <atodorov@MrSenko.com>
+// Copyright (c) 2019-2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -176,7 +176,7 @@ public class RpcClient extends BaseRpcClient {
 
     public TestRun getRun(int runId) {
         Map<String, Object> filter = new HashMap<>();
-        filter.put("run_id", runId);
+        filter.put("pk", runId);
 
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(RUN_FILTER, Arrays.asList((Object) filter));
         if (jsonArray == null || jsonArray.isEmpty()) {
@@ -263,7 +263,7 @@ public class RpcClient extends BaseRpcClient {
         values.put("status", status);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("case_run_id", tcRunId);
+        params.put("execution_id", tcRunId);
         params.put("values", values);
         JSONObject json = (JSONObject) executeViaNamedParams(TEST_EXECUTION_UPDATE, params);
         try {

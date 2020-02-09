@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -29,7 +30,7 @@ public class TestCase {
         return caseId;
     }
 
-    @JsonSetter("case_id")
+    @JsonSetter("id")
     public void setCaseId(int caseId) {
         this.caseId = caseId;
     }
@@ -126,7 +127,6 @@ public class TestCase {
     }
 
 
-    //case_run_id
     public static Integer nameExists(String name, TestCase[] tests){
         if (name == null || name.isEmpty() || tests.length == 0){
             return null;

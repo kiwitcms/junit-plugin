@@ -1,4 +1,5 @@
 // Copyright (c) 2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -36,7 +37,7 @@ public class Build {
         return id;
     }
 
-    @JsonSetter("build_id")
+    @JsonSetter("id")
     public void setId(int id) {
         this.id = id;
     }
@@ -51,4 +52,4 @@ public class Build {
     }
 }
 
-//Choices are: build_id, build_run, description, is_active, name, product, product_id, testcaserun
+//Choices are: id, build_run, description, is_active, name, product, product_id, testcaserun
