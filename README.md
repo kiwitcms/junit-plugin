@@ -81,6 +81,19 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
 
+### 8.0 (09 Feb 2020)
+
+This version works only with Kiwi TCMS v8.0 or later!
+
+- Adjust field names for API changes coming in Kiwi TCMS v8.0
+- Do not use deprecated `product` field when calling `TestCase.create()` API
+- Bug-fix: take into account `TCMS_RUN_ID` environment variable
+- Bump jackson-core from 2.10.0 to 2.10.2
+- Bump maven-source-plugin from 3.2.0 to 3.2.1
+- Bump maven-surefire-plugin from 3.0.0-M3 to 3.0.0-M4
+- Bump mockito-core from 3.1.0 to 3.2.4
+
+
 ### 6.7.5 (10 Nov 2019)
 
 Fixes moderate severity issue
