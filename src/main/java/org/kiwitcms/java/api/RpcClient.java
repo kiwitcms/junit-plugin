@@ -72,9 +72,8 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
-    public TestCase createTestCase(int productId, int categoryId, int priorityId, int caseStatusId, String summary) {
+    public TestCase createTestCase(int categoryId, int priorityId, int caseStatusId, String summary) {
         Map<String, Object> params = new HashMap<>();
-        params.put("product", productId);
         params.put("category", categoryId);
         params.put("summary", summary);
         params.put("is_automated", "true");
@@ -97,7 +96,7 @@ public class RpcClient extends BaseRpcClient {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList((Object)filter));
         if (jsonArray == null || jsonArray.isEmpty()) {
             int caseStatusId = getConfirmedTCStatusId();
-            return createTestCase(productId, categoryId, priorityId, caseStatusId, summary);
+            return createTestCase(categoryId, priorityId, caseStatusId, summary);
         }
 
         try {

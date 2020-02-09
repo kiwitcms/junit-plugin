@@ -47,10 +47,11 @@ public class TestingRpcTest {
         TestCase expectedTC = new TestCase();
         //inconsistent tcms behaviour
         expectedTC.setProduct("33");
+        //todo: ^^^ product probably needs to be removed
         expectedTC.setCategoryId(4);
         expectedTC.setPriorityId(0);
         expectedTC.setSummary("Test Summary");
-        assertThat(spy.createTestCase(33, 4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
+        assertThat(spy.createTestCase(4, 0, 1, "Test Summary"), Matchers.samePropertyValuesAs(expectedTC));
     }
 
     @Test
