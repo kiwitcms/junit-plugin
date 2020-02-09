@@ -66,7 +66,7 @@ public class TestingRpcTest {
         Mockito.doReturn(array).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
 
         TestRun expectedResult = new TestRun();
-        expectedResult.seId(1);
+        expectedResult.setId(1);
         assertThat(spy.getRun(1), Matchers.samePropertyValuesAs(expectedResult));
     }
 

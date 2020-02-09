@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -20,9 +21,8 @@ public class TestRun {
         return id;
     }
 
-    @JsonSetter("run_id")
-//TODO: doesn't this need to be setId? Is it used at all?
-    public void seId(int id) {
+    @JsonSetter("id")
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,10 +70,4 @@ public class TestRun {
     public void setProductVersion(String productVersion) {
         this.productVersion = productVersion;
     }
-
-//    [{"summary":"Test run for TestPlan","cc":[],"product_version":"3.1","notes":"","run_id":694,"manager":"apetkova","stop_date":null,"product_version_id":47,"default_tester_id":2259,"build_id":29,"build":"unspecified","manager_id":2259,"tag":[],"plan":"TestPlan","default_tester":"apetkova","plan_id":1304,"start_date":"2019-01-23 21:38:04"}]
-//{"summary":"Automatic test run","cc":[],"product_version":"1","run_id":705,"notes":"","manager":"apetkova","product_version_id":376,"stop_date":null,"default_tester_id":null,"build_id":4,"build":"3.39-localhost","manager_id":2259,"tag":[],"plan":"TestPlan","plan_id":1304,"default_tester":null,"start_date":"2019-01-26 22:23:02"}
-
-
-
 }

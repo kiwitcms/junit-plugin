@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -26,7 +27,7 @@ public class TestPlan {
         return id;
     }
 
-    @JsonSetter("plan_id")
+    @JsonSetter("id")
     public void setId(Integer id) {
         this.id = id;
     }
@@ -114,6 +115,3 @@ public class TestPlan {
     }
 
 }
-
-//{"parent":null,"product_version":"unspecified","product":"Dunder","is_active":true,"extra_link":null,"author":"apetkova","type_id":1,"product_version_id":1,"type":"Unit","parent_id":null,"product_id":1,"name":"Auto Test Plan 1","text":"WIP","tag":[],"create_date":"2019-01-26 23:21:35","author_id":2259,"plan_id":1507}
-

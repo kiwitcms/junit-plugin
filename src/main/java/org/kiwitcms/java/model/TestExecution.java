@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -20,7 +21,8 @@ public class TestExecution {
         return tcRunId;
     }
 
-    @JsonSetter("case_run_id")
+    // todo: this should become this.id
+    @JsonSetter("id")
     public void setTcRunId(int tcRunId) {
         this.tcRunId = tcRunId;
     }
