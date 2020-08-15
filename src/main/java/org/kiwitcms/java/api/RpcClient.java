@@ -47,7 +47,6 @@ public class RpcClient extends BaseRpcClient {
     private static final String CREATE_PLAN_METHOD = "TestPlan.create";
     private static final String TEST_PLAN_FILTER = "TestPlan.filter";
     private static final String TEST_EXECUTION_FILTER = "TestExecution.filter";
-    private static final String TEST_EXECUTION_CREATE = "TestExecution.create";
     private static final String TEST_EXECUTION_UPDATE = "TestExecution.update";
     public static final String TEST_CASE_STATUS_FILTER = "TestCaseStatus.filter";
 
@@ -238,22 +237,6 @@ public class RpcClient extends BaseRpcClient {
                 e.printStackTrace();
                 return null;
             }
-        }
-    }
-
-    public TestExecution createTestExecution(int runId, int caseId, int build, int status) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("run", runId);
-        params.put("case", caseId);
-        params.put("build", build);
-        params.put("status", status);
-
-        JSONObject json = (JSONObject) executeViaPositionalParams(TEST_EXECUTION_CREATE, Arrays.asList((Object) params));
-        try {
-            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
