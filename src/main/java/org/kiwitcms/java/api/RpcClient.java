@@ -322,10 +322,10 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
-    public Build createBuild(String name, int productId) {
+    public Build createBuild(String name, int versionId) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
-        params.put("product", productId);
+        params.put("version", versionId);
         JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_BUILD_METHOD, Arrays.asList((Object) params));
         try {
             return new ObjectMapper().readValue(json.toJSONString(), Build.class);
