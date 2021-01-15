@@ -79,7 +79,7 @@ public class TestDataEmitter {
 //TODO: this must check if this TR is already available in the DB
 // and not create a new TR for the same product, version and build
             if (runId == null) {
-                runId = client.createNewRun(getBuild(getProductId()),
+                runId = client.createNewRun(getBuild(getVersion(getProductId())),
                         config.getUsername(),
                         getPlanId(),
                         String.format("[JUnit] Results for %s, %s, %s",
@@ -109,17 +109,17 @@ public class TestDataEmitter {
         }
     }
 
-    public int getBuild(int productId) {
+    public int getBuild(int versionId) {
         String confBuild = config.getBuild();
         Map<String, Object> filter = new HashMap<>();
-        filter.put("product", productId);
+        filter.put("version", versionId);
         if (confBuild != null) {
             filter.put("name", confBuild);
             Build[] existingBuilds = client.getBuilds(filter);
             if (existingBuilds.length > 0) {
                 return existingBuilds[0].getId();
             } else {
-                Build newBuild = client.createBuild(confBuild, productId);
+                Build newBuild = client.createBuild(confBuild, versionId);
                 if (newBuild != null) {
                     return newBuild.getId();
                 }
