@@ -80,6 +80,21 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 9.0 (15 Jan 2021)
+
+This version works only with Kiwi TCMS v9.0 or later!
+
+- Bump maven-checkstyle-plugin from 3.1.0 to 3.1.1
+- Bump commons-configuration2 from 2.6 to 2.7
+- Bump maven-javadoc-plugin from 3.1.1 to 3.2.0
+- Bump mockito-core from 3.2.4 to 3.3.3
+- Bump jackson-databind from 2.9.10.1 to 2.10.0
+- Bump maven-surefire-plugin from 3.0.0-M4 to 3.0.0-M5
+- Bump jacoco-maven-plugin from 0.8.5 to 0.8.6
+- Bump mockito-core from 3.2.4 to 3.7.0
+- Bump jackson-core from 2.10.2 to 2.12.1
+- Remove unused method
+
 
 ### 8.0 (09 Feb 2020)
 
