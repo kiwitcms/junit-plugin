@@ -215,4 +215,4 @@ im `pom.xml` if you are having problems building locally!
 You will need Maven >= 3.3.9 which on RHEL/CentOS system can be obtained via
 SoftwareCollections:
 
-    scl enable rh-maven35 /bin/bash
+    scl enable rh-maven36 /bin/bash
