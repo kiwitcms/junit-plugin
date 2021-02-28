@@ -1,5 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
-// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
+// Copyright (c) 2020-2021 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -39,7 +39,7 @@ public class TestRun {
         return plan;
     }
 
-    @JsonSetter("plan_id")
+    @JsonSetter("plan")
     public void setPlan(int plan) {
         this.plan = plan;
     }
@@ -48,7 +48,7 @@ public class TestRun {
         return build;
     }
 
-    @JsonSetter("build_id")
+    @JsonSetter("build")
     public void setBuild(int build) {
         this.build = build;
     }

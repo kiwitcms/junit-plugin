@@ -1,5 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
-// Copyright (c) 2019-2020 Alexander Todorov <atodorov@MrSenko.com>
+// Copyright (c) 2019-2021 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -296,7 +296,7 @@ public class RpcClient extends BaseRpcClient {
         Object classificationId = ((JSONObject) jsonArray.get(0)).get("id");
 
         params.put("name", name);
-        params.put("classification_id", classificationId);
+        params.put("classification", classificationId);
 
         JSONObject json = (JSONObject) executeViaPositionalParams(CREATE_PRODUCT_METHOD, Arrays.asList((Object) params));
         try {

@@ -1,5 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
-// Copyright (c) 2020 Alexander Todorov <atodorov@MrSenko.com>
+// Copyright (c) 2020-2021 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -52,7 +52,7 @@ public class TestPlan {
         return createDate;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     @JsonSetter("create_date")
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
