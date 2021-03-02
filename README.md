@@ -80,6 +80,13 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 10.0 (02 Mar 2021)
+
+This version works only with Kiwi TCMS v10.0 or later!
+
+- Upgrade jackson-databind from 2.10.0 to 2.12.0
+
+
 ### 9.0 (15 Jan 2021)
 
 This version works only with Kiwi TCMS v9.0 or later!
