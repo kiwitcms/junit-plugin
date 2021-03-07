@@ -15,7 +15,6 @@ public class TestRun {
     private int plan;
     private int build;
     private String manager;
-    private String productVersion;
 
     public int getId() {
         return id;
@@ -60,14 +59,5 @@ public class TestRun {
     @JsonSetter("manager")
     public void setManager(String manager) {
         this.manager = manager;
-    }
-
-    public String getProductVersion() {
-        return productVersion;
-    }
-
-    @JsonSetter("product_version")
-    public void setProductVersion(String productVersion) {
-        this.productVersion = productVersion;
     }
 }
