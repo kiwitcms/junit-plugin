@@ -200,7 +200,6 @@ public class RpcClient extends BaseRpcClient {
         params = new HashMap<>();
         params.put("product", productId);
         params.put("type", type);
-        params.put("default_product_version", 0);
         params.put("product_version", versionId);
         params.put("text", "WIP");
         params.put("is_active", true);
