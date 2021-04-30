@@ -6,20 +6,4 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: com.fasterxml.jackson.core:jackson-core
-    versions:
-    - 2.12.2
-  - dependency-name: org.mockito:mockito-core
-    versions:
-    - 3.7.7
-    - 3.8.0
-  - dependency-name: org.junit.jupiter:junit-jupiter-engine
-    versions:
-    - 5.7.0
-  - dependency-name: org.junit.jupiter:junit-jupiter-api
-    versions:
-    - 5.7.0
-  - dependency-name: org.junit.platform:junit-platform-launcher
-    versions:
-    - 1.7.0
+
