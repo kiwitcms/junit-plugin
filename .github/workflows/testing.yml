@@ -1,0 +1,49 @@
+name: testing
+
+on:
+  pull_request:
+  push:
+    branches: master
+
+jobs:
+  mvn:
+    name: ${{ matrix.make-command }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [8]
+
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Java ${{ matrix.java-version }}
+      uses: actions/setup-java@v2
+      with:
+        # This is Eclipse Temurin 8 (based on OpenJDK), see https://adoptium.net/
+        distribution: 'temurin'
+        java-version: ${{ matrix.java-version }}
+
+    - name: Prepare ~/.tcms.conf
+      run: |
+          echo "[tcms]" > ~/.tcms.conf
+          echo "url = https://tcms.kiwitcms.org/xml-rpc/" >> ~/.tcms.conf
+          echo "username = kiwitcms-bot" >> ~/.tcms.conf
+          echo "password = ${{ secrets.TCMS_PASSWORD }}" >> ~/.tcms.conf
+
+          # TODO: is this needed ???
+          # sudo cp .ssl/*.pem /usr/lib/ssl/certs/
+          # sudo update-ca-certificates --fresh
+
+    - name: Execute tests
+      run: |
+        export TCMS_PRODUCT=$GITHUB_REPOSITORY
+        # branch name or pull/123
+        export TCMS_PRODUCT_VERSION=$(echo $GITHUB_REF | sed "s|refs/heads/||" | sed "s|refs/||" | sed "s|/merge||")
+        # short commit number
+        export TCMS_BUILD=$(echo $GITHUB_SHA | cut -c1-7)
+
+        mvn checkstyle:checkstyle
+        mvn test -B jacoco:report # coveralls:report
