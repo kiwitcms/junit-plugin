@@ -132,14 +132,22 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
-    public TestExecution addTestCaseToRunId(int runId, int caseId) {
+    public TestExecution[] addTestCaseToRunId(int runId, int caseId) {
         Map<String, Object> params = new HashMap<>();
         params.put("run_id", runId);
         params.put("case_id", caseId);
 
-        JSONObject json = (JSONObject) executeViaNamedParams(ADD_TC_TO_RUN_METHOD, params);
+        Object response = executeViaNamedParams(ADD_TC_TO_RUN_METHOD, params);
         try {
-            return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
+            if (response instanceof JSONObject) {
+                // Kiwi TCMS v10.5 or earlier
+                TestExecution execution = new ObjectMapper().readValue(((JSONObject)response).toJSONString(), TestExecution.class);
+                TestExecution[] executions = {execution};
+                return executions;
+            } else {
+                // Kiwi TCMS v11.0 or later
+                return new ObjectMapper().readValue(((JSONArray)response).toJSONString(), TestExecution[].class);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;

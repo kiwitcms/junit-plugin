@@ -101,11 +101,11 @@ public class TestDataEmitter {
         for (TestMethod test : tests) {
             TestCase testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
             client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
-// TODO: this method should accept casesInTestRun and not call RPC if the TestCase
-// has already been added inside the TestRun
-            TestExecution testExecution = client.addTestCaseToRunId(runId, testCase.getCaseId());
 
-            client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
+            TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
+            for (TestExecution testExecution : executions) {
+                client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
+            }
         }
     }
 
