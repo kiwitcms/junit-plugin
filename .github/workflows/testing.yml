@@ -46,4 +46,10 @@ jobs:
         export TCMS_BUILD=$(echo $GITHUB_SHA | cut -c1-7)
 
         mvn checkstyle:checkstyle
-        mvn test -B jacoco:report # coveralls:report
+        mvn test -B jacoco:report
+
+    - name: Submit coverage report to codecov.io
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./target/site/jacoco/jacoco.xml
+        verbose: true
