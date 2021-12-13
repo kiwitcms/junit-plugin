@@ -233,6 +233,7 @@ You need your `~/.m2/settings.xml` to look something like this
 
 To push a new release/SNAPSHOT update the version string in `pom.xml` and do
 
+    export GPG_TTY=$(tty)
     mvn clean deploy -P release
 
 WARNING: consider setting `junit.jupiter.extensions.autodetection.enabled=false`
