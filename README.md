@@ -78,7 +78,26 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 ## Changelog
 
-Files signed with C0C5FF36, Kiwi TCMS &lt;info@kiwitcms.org&gt;
+Files signed with EC1CEB7CDFA79FB5, Kiwi TCMS &lt;info@kiwitcms.org&gt;
+
+### 11.0 (13 Dec 2021)
+
+- GPG key used to sign this package changed from `C0C5FF36` to `EC1CEB7CDFA79FB5`
+- Forward compatibility with upcoming Kiwi TCMS v11.0
+- Remove non-existing field `default_product_version` from API call
+- Remove `TestRun.product_version` field
+- Bump jackson-core from 2.12.1 to 2.13.0
+- Bump jackson-databind from 2.12.0 to 2.13.0
+- Bump jacoco-maven-plugin from 0.8.6 to 0.8.7
+- Bump jsonrpc2-client from 1.16.4 to 1.16.5
+- Bump junit-jupiter-api from 5.5.2 to 5.8.2
+- Bump junit-jupiter-engine from 5.5.2 to 5.8.2
+- Bump junit-platform-launcher from 1.5.2 to 1.8.2
+- Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2
+- Bump maven-gpg-plugin from 1.6 to 3.0.1
+- Bump maven-javadoc-plugin from 3.2.0 to 3.3.1
+- Bump mockito-core from 3.7.0 to 4.1.0
+
 
 ### 10.0 (02 Mar 2021)
 
@@ -206,7 +225,7 @@ You need your `~/.m2/settings.xml` to look something like this
           </activation>
           <properties>
             <gpg.executable>gpg2</gpg.executable>
-            <gpg.keyname>C0C5FF36</gpg.keyname>
+            <gpg.keyname>EC1CEB7CDFA79FB5</gpg.keyname>
           </properties>
         </profile>
       </profiles>

@@ -4,7 +4,7 @@
     <groupId>org.kiwitcms.java</groupId>
     <artifactId>kiwitcms-junit-plugin</artifactId>
     <packaging>jar</packaging>
-    <version>10.0</version>
+    <version>11.0</version>
 
     <name>kiwitcms-junit-plugin</name>
     <description>JUnit 5 plugin for Kiwi TCMS.</description>
