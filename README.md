@@ -29,10 +29,10 @@ but that should be redundant:
 
     import org.junit.jupiter.api.Test;
     import static org.hamcrest.MatcherAssert.assertThat;
-    
+
     import org.junit.jupiter.api.extension.ExtendWith;
     import org.kiwitcms.java.junit.KiwiTcmsExtension;
-    
+
     @ExtendWith(KiwiTcmsExtension.class)
     public class KiwiJsonRpcClientTest {
         @Test
@@ -60,16 +60,16 @@ them to the backend. Behavior is controlled via environment variables.
 For example this is how our own environment looks like::
 
     #!/bin/bash
-    
+
     if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
         # same as $TRAVIS_TAG when building tags
         export TCMS_PRODUCT_VERSION=$TRAVIS_BRANCH
     fi
-    
+
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
         export TCMS_PRODUCT_VERSION="PR-$TRAVIS_PULL_REQUEST"
     fi
-    
+
     export TCMS_BUILD="$TRAVIS_BUILD_NUMBER-$(echo $TRAVIS_COMMIT | cut -c1-7)"
 
 For a more detailed example see:
@@ -216,7 +216,7 @@ You need your `~/.m2/settings.xml` to look something like this
           <password>***</password>
         </server>
       </servers>
-    
+
       <profiles>
         <profile>
           <id>ossrh</id>
