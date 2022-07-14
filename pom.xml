@@ -131,7 +131,7 @@
                 <configuration>
                     <properties>
                         <configurationParameters>
-                            junit.jupiter.extensions.autodetection.enabled=false
+                            junit.jupiter.extensions.autodetection.enabled=true
                         </configurationParameters>
                     </properties>
                 </configuration>
