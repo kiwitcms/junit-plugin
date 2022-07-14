@@ -242,6 +242,9 @@ To push a new release/SNAPSHOT update the version string in `pom.xml` and do
     export GPG_TTY=$(tty)
     mvn clean deploy -P release
 
+NOTE: try `ssh -X` if Maven fails to start GnuPG. It needs to ask for a password
+which needs a terminal or X!
+
 WARNING: consider setting `junit.jupiter.extensions.autodetection.enabled=false`
 im `pom.xml` if you are having problems building locally!
 
