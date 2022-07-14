@@ -1,13 +1,10 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2022 Alexander Todorov <atodorov@otb.bg>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
 package org.kiwitcms.java.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.List;
 
 public class TestMethod {
     public String name;
@@ -25,36 +22,5 @@ public class TestMethod {
 
     public String getSummary() {
         return containingClass + "." + name;
-    }
-
-    public int getTestExecutionStatus() {
-//todo: this must be coming from the database, not hard-coded
-        switch (result) {
-            case "PASS":
-                return 4;
-            case "FAIL":
-                return 5;
-            default:
-                //IDLE
-                return 1;
-        }
-    }
-
-    public String toJSONString() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
-    public static String toJSONArrayString(List<TestMethod> list) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
     }
 }

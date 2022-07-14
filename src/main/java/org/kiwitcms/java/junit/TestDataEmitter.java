@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
+// Copyright (c) 2022 Alexander Todorov <atodorov@otb.bg>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -104,9 +105,29 @@ public class TestDataEmitter {
 
             TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
             for (TestExecution testExecution : executions) {
-                client.updateTestExecution(testExecution.getTcRunId(), test.getTestExecutionStatus());
+                client.updateTestExecution(testExecution.getTcRunId(), getTestExecutionStatusId(test.result));
             }
         }
+    }
+
+    // TODO: this method is called for every execution.
+    // Results can be cached
+    private int getTestExecutionStatusId(String result) {
+        TestExecutionStatus status = null;
+
+        switch (result) {
+            case "PASS":
+                status = client.getTestExecutionStatus("PASSED", "__gt");
+                break;
+            case "FAIL":
+                status = client.getTestExecutionStatus("FAILED", "__lt");
+                break;
+            default:
+                //IDLE
+                status = client.getTestExecutionStatus(result, "");
+        }
+
+        return status.getId();
     }
 
     public int getBuild(int versionId) {
