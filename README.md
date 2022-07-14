@@ -80,6 +80,12 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with EC1CEB7CDFA79FB5, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 11.1 (14 Jul 2022)
+
+- Don't hard-code test execution statuses, fetch them from API
+- Update dependencies to latest versions
+- Add pre-commit CI config
+
 ### 11.0 (13 Dec 2021)
 
 - GPG key used to sign this package changed from `C0C5FF36` to `EC1CEB7CDFA79FB5`
