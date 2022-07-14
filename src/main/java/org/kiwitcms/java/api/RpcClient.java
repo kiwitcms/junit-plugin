@@ -1,5 +1,5 @@
 // Copyright (c) 2018-2019 Aneta Petkova <aneta.v.petkova@gmail.com>
-// Copyright (c) 2019-2021 Alexander Todorov <atodorov@MrSenko.com>
+// Copyright (c) 2019-2022 Alexander Todorov <atodorov@MrSenko.com>
 
 // Licensed under the GPLv3: https://www.gnu.org/licenses/gpl.html
 
@@ -199,7 +199,6 @@ public class RpcClient extends BaseRpcClient {
     }
 
     public TestPlan createNewTP(int productId, String name, int versionId) {
-        // TODO: remove call for plan type
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Unit");
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams("PlanType.filter", Arrays.asList((Object) params));
@@ -254,6 +253,7 @@ public class RpcClient extends BaseRpcClient {
         Map<String, Object> params = new HashMap<>();
         params.put("execution_id", tcRunId);
         params.put("values", values);
+
         JSONObject json = (JSONObject) executeViaNamedParams(TEST_EXECUTION_UPDATE, params);
         try {
             return new ObjectMapper().readValue(json.toJSONString(), TestExecution.class);
@@ -388,5 +388,27 @@ public class RpcClient extends BaseRpcClient {
     // TODO: Create Category class
     public JSONArray getCategory(Map<String, Object> filter) {
         return (JSONArray) executeViaPositionalParams(CATEGORY_FILTER, Arrays.asList((Object) filter));
+    }
+
+    public TestExecutionStatus getTestExecutionStatus(String name, String weightLookup) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("name", name);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams("TestExecutionStatus.filter", Arrays.asList((Object) filter));
+
+        // name not found, search by weight
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            filter.remove("name");
+            // eq, gt or lt zero
+            filter.put("weight" + weightLookup, 0);
+            jsonArray = (JSONArray) executeViaPositionalParams("TestExecutionStatus.filter", Arrays.asList((Object) filter));
+        }
+
+        try {
+            TestExecutionStatus[] statuses = new ObjectMapper().readValue(jsonArray.toJSONString(), TestExecutionStatus[].class);
+            return statuses[0];
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
