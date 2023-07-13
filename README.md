@@ -52,8 +52,8 @@ Minimal config file `~/.tcms.conf`:
     password = your-password
 
 You can override the default (user home directory) file location by adding maven option ```tcmsConfigPath```
-followed by path to folder containing `.tcms.conf` file. 
-Example command line usage: ```-DtcmsConfigPath=D:\Path\To\Config\File``` 
+followed by path to folder containing `.tcms.conf` file.
+Example command line usage: ```-DtcmsConfigPath=D:\Path\To\Config\File```
 
 For more info see [tcms-api docs](https://tcms-api.readthedocs.io).
 
