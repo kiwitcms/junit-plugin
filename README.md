@@ -51,6 +51,9 @@ Minimal config file `~/.tcms.conf`:
     username = your-username
     password = your-password
 
+You can override the default (user home directory) file location by adding maven option ```tcmsConfigPath```
+followed by path to folder containing `.tcms.conf` file. 
+Example command line usage: ```-DtcmsConfigPath=D:\Path\To\Config\File``` 
 
 For more info see [tcms-api docs](https://tcms-api.readthedocs.io).
 
@@ -79,6 +82,10 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 ## Changelog
 
 Files signed with EC1CEB7CDFA79FB5, Kiwi TCMS &lt;info@kiwitcms.org&gt;
+
+### 11.2 (13 Jul 2023)
+
+- Add override parameter to config path
 
 ### 11.1 (14 Jul 2022)
 

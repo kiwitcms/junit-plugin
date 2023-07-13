@@ -8,6 +8,7 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ini4j.Ini;
 import org.ini4j.IniPreferences;
 
@@ -27,6 +28,9 @@ public class Config {
     private Config() {
         try {
             String home_dir = System.getProperty("user.home");
+            if (!StringUtils.isBlank(System.getProperty("tcmsConfigPath"))) {
+                home_dir = System.getProperty("tcmsConfigPath");
+            }
             config = new IniPreferences(new Ini(new File(home_dir + "/.tcms.conf")));
         } catch (java.io.IOException fnfe) {
             fnfe.printStackTrace();
