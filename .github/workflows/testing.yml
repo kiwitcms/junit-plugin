@@ -27,14 +27,11 @@ jobs:
         java-version: ${{ matrix.java-version }}
 
     - name: Prepare ~/.tcms.conf for ${{ matrix.kiwitcms-url }}
-      if: env.TCMS_PASSWORD
       run: |
           echo "[tcms]" > ~/.tcms.conf
           echo "url = https://${{ matrix.kiwitcms-url }}/xml-rpc/" >> ~/.tcms.conf
           echo "username = kiwitcms-bot" >> ~/.tcms.conf
           echo "password = ${{ secrets.TCMS_PASSWORD }}" >> ~/.tcms.conf
-      env:
-        TCMS_PASSWORD: ${{ secrets.TCMS_PASSWORD }}
 
     - name: Disable submission to ${{ matrix.kiwitcms-url }} if no permissions
       if: ${{ env.TCMS_PASSWORD == '' }}
