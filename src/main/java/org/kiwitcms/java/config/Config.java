@@ -27,11 +27,11 @@ public class Config {
 
     private Config() {
         try {
-            String home_dir = System.getProperty("user.home");
+            String config_path = System.getProperty("user.home") + "/.tcms.conf");
             if (!StringUtils.isBlank(System.getProperty("tcmsConfigPath"))) {
-                home_dir = System.getProperty("tcmsConfigPath");
+                config_path = System.getProperty("tcmsConfigPath");
             }
-            config = new IniPreferences(new Ini(new File(home_dir + "/.tcms.conf")));
+            config = new IniPreferences(new Ini(new File(config_path)));
         } catch (java.io.IOException fnfe) {
             fnfe.printStackTrace();
         }
