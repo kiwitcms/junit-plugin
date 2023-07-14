@@ -83,10 +83,6 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with EC1CEB7CDFA79FB5, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
-### 11.2 (13 Jul 2023)
-
-- Add override parameter to config path
-
 ### 11.1 (14 Jul 2022)
 
 - Don't hard-code test execution statuses, fetch them from API
