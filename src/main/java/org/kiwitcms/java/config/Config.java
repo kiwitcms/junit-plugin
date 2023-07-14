@@ -8,7 +8,6 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.ini4j.Ini;
 import org.ini4j.IniPreferences;
 
@@ -27,10 +26,10 @@ public class Config {
 
     private Config() {
         try {
-            String config_path = System.getProperty("user.home") + "/.tcms.conf");
-            if (!StringUtils.isBlank(System.getProperty("tcmsConfigPath"))) {
-                config_path = System.getProperty("tcmsConfigPath");
-            }
+            String config_path = System.getProperty(
+                "tcmsConfigPath",
+                System.getProperty("user.home") + "/.tcms.conf"
+            );
             config = new IniPreferences(new Ini(new File(config_path)));
         } catch (java.io.IOException fnfe) {
             fnfe.printStackTrace();
