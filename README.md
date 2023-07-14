@@ -83,6 +83,20 @@ http://kiwitcms.org/blog/atodorov/2019/02/22/how-to-use-kiwi-tcms-plugins-pt-1/
 
 Files signed with EC1CEB7CDFA79FB5, Kiwi TCMS &lt;info@kiwitcms.org&gt;
 
+### 12.5 (14 Jul 2023)
+
+- Add override parameter to config path (Marcin Lewandowski)
+- Upgrade jackson-core from 2.13.3 to 2.15.2
+- Upgrade jackson-databind from 2.13.4.2 to 2.15.2
+- Upgrade junit-jupiter-api from 5.8.2 to 5.9.3
+- Upgrade junit-jupiter-engine from 5.8.2 to 5.9.3
+- Upgrade junit-platform-launcher from 1.8.2 to 1.9.3
+- Upgrade maven-checkstyle-plugin from 3.1.2 to 3.3.0
+- Upgrade maven-compiler-plugin from 3.10.1 to 3.11.0
+- Upgrade maven-javadoc-plugin from 3.4.0 to 3.5.0
+- Upgrade maven-surefire-plugin from 3.0.0-M7 to 3.1.2
+- Upgrade mockito-core from 4.6.1 to 4.11.0
+
 ### 11.1 (14 Jul 2022)
 
 - Don't hard-code test execution statuses, fetch them from API
