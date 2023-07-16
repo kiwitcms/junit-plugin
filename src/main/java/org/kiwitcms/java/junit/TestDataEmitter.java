@@ -109,7 +109,7 @@ public class TestDataEmitter {
                 testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
             }
             client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
-    
+
             TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
             for (TestExecution testExecution : executions) {
                 client.updateTestExecution(testExecution.getTcRunId(), getTestExecutionStatusId(test.result));
