@@ -6,6 +6,7 @@
 package org.kiwitcms.java.junit;
 
 import net.minidev.json.JSONObject;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kiwitcms.java.api.RpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
@@ -100,9 +101,15 @@ public class TestDataEmitter {
         int testPlanId = getPlanId();
 
         for (TestMethod test : tests) {
-            TestCase testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
+            TestCase testCase = null;
+            if (test.id != 0) {
+                testCase = client.getTestCaseById(test.id);
+            }
+            if (ObjectUtils.isEmpty(testCase)) {
+                testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
+            }
             client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
-
+    
             TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
             for (TestExecution testExecution : executions) {
                 client.updateTestExecution(testExecution.getTcRunId(), getTestExecutionStatusId(test.result));

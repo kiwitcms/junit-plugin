@@ -5,6 +5,7 @@
 package org.kiwitcms.java.junit;
 
 import org.kiwitcms.java.config.Config;
+import org.kiwitcms.java.model.TcmsTestCaseId;
 import org.kiwitcms.java.model.TestMethod;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
@@ -49,6 +50,10 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
                 test.result = "PASS";
             }
             test.containingClass = method.getDeclaringClass().getSimpleName();
+            if (method.isAnnotationPresent(TcmsTestCaseId.class)) {
+                TcmsTestCaseId tcmsTestCaseId = method.getAnnotation(TcmsTestCaseId.class);
+                test.id = tcmsTestCaseId.value();
+            }
             tests.add(test);
         }
     }

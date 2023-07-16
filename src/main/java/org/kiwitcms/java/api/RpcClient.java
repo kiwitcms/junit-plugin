@@ -411,4 +411,22 @@ public class RpcClient extends BaseRpcClient {
             return null;
         }
     }
+    
+    public TestCase getTestCaseById(int testCaseId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("id", testCaseId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Arrays.asList(filter));
+        if (jsonArray == null || jsonArray.isEmpty()) {
+            System.out.printf("Case ID \"%s\" not found%n", testCaseId);
+            return null;
+        }
+
+        try {
+            TestCase[] testCases = new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+            return testCases[0];
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

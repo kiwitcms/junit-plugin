@@ -24,6 +24,12 @@ This plugin extends `org.junit.jupiter.api.extension.Extension` and has
 `junit.jupiter.extensions.autodetection.enabled=true` configured by default in
 `pom.xml`. This means Jupiter will pick it up automatically.
 
+You can point each executed test case to a specific case ID by annotating `@Test` method with `@TcmsTestCaseId(int)`,
+where `int` is the test case ID. See the `KiwiTcmsExtension` example below.
+If the test case is not found searching by ID, plugin will default to standard search method.
+You can find the case ID in your TCMS instance URL (example: https://tcms.server/case/1)
+or on the test case page in the test case name (TC-**1**: Test case 1).
+
 You may alternatively decorate your test suite with the `KiwiTcmsExtension` class
 but that should be redundant:
 
@@ -36,6 +42,7 @@ but that should be redundant:
     @ExtendWith(KiwiTcmsExtension.class)
     public class KiwiJsonRpcClientTest {
         @Test
+        @TcmsTestCaseId(11)
         public void yourTest(){
             assertThat(...);
         }
