@@ -62,8 +62,8 @@ followed by the full path to a config file. For example:
 ```-DtcmsConfigPath=D:\Path\To\tcms.conf```
 
 There are special keys that can be used to configure the reported test cases/plans:
-- `runId` test cases will be reported under one ID specified as the value. Can be overwritten by setting 
-  environmental variable `TCMS_RUN_ID`
+- `runId` test cases will be reported under one ID specified as the value. This ID has to be already registered in TCMS.
+Can be overwritten by setting environmental variable `TCMS_RUN_ID`
 - `runName` if you don't like the built-in `[JUnit] Results for [Product], [ProductVersio], [Build]` test run name,
 you can specify your own. Works only for newly registered runs. Can be overwritten by Maven option `tcmsRunName`
 (ex.: `-DtcmsRunName=HelloWorld`)
