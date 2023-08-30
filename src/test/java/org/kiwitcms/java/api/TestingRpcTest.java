@@ -103,16 +103,16 @@ class TestingRpcTest {
 
         assertThat(spy.getRun(1), is(equalTo(null)));
     }
-    
+
     @Test
     void getTestParametersByTestId() {
         RpcClient spy = Mockito.spy(new RpcClient());
-    
+
         //TODO enable when date assignment in TestCase.class is working; returns null when mapping a valid date format
 //        Date date = Date.from(Instant.now());
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 //        String formattedDate = sdf.format(date);
-    
+
         //Test object
         JSONArray result = new JSONArray();
         JSONObject resultBody = new JSONObject();
@@ -141,11 +141,11 @@ class TestingRpcTest {
         resultBody.put("setup_duration", 0.0);
         resultBody.put("testing_duration", 0.0);
         resultBody.put("expected_duration", 0.0);
-        
+
         result.add(resultBody);
-    
+
         Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
-        
+
         //Expected test case
         TestCase expectedTc = new TestCase();
         expectedTc.setCaseId(2);
@@ -154,35 +154,35 @@ class TestingRpcTest {
         expectedTc.setAutomated(true);
         expectedTc.setSummary("Test summary");
         expectedTc.setArguments("");
-        
+
         //Get result from the "api"
         TestCase resultingTc = spy.getTestCaseById(2);
-        
+
         // Resulting TestCase should be the same as in JSON response
         assertThat(resultingTc, Matchers.samePropertyValuesAs(expectedTc));
     }
-    
+
     @Test
     void getTestParametersByTestIdWithEmptyResponse() {
         RpcClient spy = Mockito.spy(new RpcClient());
-        
+
         //Empty response for getTestCaseById
         JSONArray result = new JSONArray();
         Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
-    
+
         assertThat(spy.getTestCaseById(1), is(nullValue()));
     }
-    
+
     @Test
     void getTestParametersByTestIdWithEmptyObject() {
         RpcClient spy = Mockito.spy(new RpcClient());
-        
+
         //Empty response for getTestCaseById
         JSONArray result = new JSONArray();
         JSONObject emptyCase = new JSONObject();
         result.add(emptyCase);
         Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
-        
+
         assertThat(spy.getTestCaseById(1), is(nullValue()));
     }
 }

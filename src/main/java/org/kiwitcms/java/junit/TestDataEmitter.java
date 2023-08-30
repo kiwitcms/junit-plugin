@@ -107,16 +107,16 @@ public class TestDataEmitter {
             //Override values from annotation (if present and not 0)
             int overridePlanId = test.testPlanId != 0 ? test.testPlanId : testPlanId;
             int overrideProductId = test.productId != 0 ? test.productId : productId;
-            
+
             if (test.id != 0) {
                 testCase = client.getTestCaseById(test.id);
             }
             if (ObjectUtils.isEmpty(testCase)) {
                 testCase = client.getOrCreateTestCase(overrideProductId, categoryId, priorityId, test.getSummary());
             }
-            
+
             client.addTestCaseToPlan(overridePlanId, testCase.getCaseId());
-            
+
             TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
             for (TestExecution testExecution : executions) {
                 client.updateTestExecution(testExecution.getTcRunId(), getTestExecutionStatusId(test.result));
