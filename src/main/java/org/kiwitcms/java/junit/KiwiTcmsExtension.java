@@ -47,7 +47,7 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener implements Afte
                 test.result = "PASS";
             }
             test.containingClass = method.getDeclaringClass().getSimpleName();
-    
+
             //Assign test attributes if present in annotations
             TcmsTestAttributesAnnotationProcessor classAnnotation = new TcmsTestAttributesAnnotationProcessor(method.getDeclaringClass());
             TcmsTestAttributesAnnotationProcessor methodAnnotation = new TcmsTestAttributesAnnotationProcessor(method);
@@ -66,7 +66,7 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener implements Afte
             if (classAnnotation.getPlanId() != 0 && methodAnnotation.getPlanId() != 0 && classAnnotation.getPlanId() != methodAnnotation.getPlanId()) {
                 test.testPlanId = methodAnnotation.getPlanId();
             }
-            
+
             tests.add(test);
         }
     }

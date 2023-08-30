@@ -87,7 +87,7 @@ public class Config {
                                 orElse(Optional.ofNullable(System.getenv("BUILD_NUMBER")).
                                         orElse(config.node("tcms").get("build", null))));
     }
-    
+
     public String getRunName() {
         return Optional.ofNullable(System.getProperty("tcmsRunName")).
                                orElse(config.node("tcms").get("runName", null));

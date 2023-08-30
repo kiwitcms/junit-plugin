@@ -67,7 +67,7 @@ Can be overwritten by setting environmental variable `TCMS_RUN_ID`
 - `runName` if you don't like the built-in `[JUnit] Results for [Product], [ProductVersio], [Build]` test run name,
 you can specify your own. Works only for newly registered runs. Can be overwritten by Maven option `tcmsRunName`
 (ex.: `-DtcmsRunName=HelloWorld`)
-- `product` test cases will be reported under specified product name. Can be overwritten by setting any 
+- `product` test cases will be reported under specified product name. Can be overwritten by setting any
   of the env variables: `JOB_NAME`, `TRAVIS_REPO_SLUG` or `TCMS_PRODUCT`
 - `productVer` test cases will be reported under specified product version. Can be overwritten by setting any
   of the env variables: `TRAVIS_PULL_REQUEST_SHA`, `TRAVIS_COMMIT` or `TCMS_PRODUCT_VERSION`
