@@ -11,11 +11,13 @@ public class TestMethod {
     public String containingClass;
     public String result;
     public Throwable exception;
-    public int id;
+    public int id = 0;
+    public int testPlanId = 0;
+    public int productId = 0;
 
-    public TestMethod(){};
+    public TestMethod() {}
 
-    public TestMethod(String name, String containingClass, String result){
+    public TestMethod(String name, String containingClass, String result) {
         this.name = name;
         this.containingClass = containingClass;
         this.result = result;

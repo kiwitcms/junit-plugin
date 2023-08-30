@@ -12,18 +12,18 @@ import org.kiwitcms.java.model.TestCase;
 import org.kiwitcms.java.model.TestRun;
 import org.mockito.Mockito;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.kiwitcms.java.api.RpcClient.CREATE_TC_METHOD;
 import static org.kiwitcms.java.api.RpcClient.TEST_CASE_STATUS_FILTER;
+import static org.kiwitcms.java.api.RpcClient.TEST_CASE_FILTER;
 import static org.mockito.ArgumentMatchers.*;
 
 
-public class TestingRpcTest {
+class TestingRpcTest {
 
     @Test
-    public void createTestCaseTest() {
+    void createTestCaseTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // props to test
@@ -55,7 +55,7 @@ public class TestingRpcTest {
     }
 
     @Test
-    public void getRunWhenValidIdTest() {
+    void getRunWhenValidIdTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // test object
@@ -72,7 +72,7 @@ public class TestingRpcTest {
     }
 
     @Test
-    public void getRunWhenServiceErrorTest() {
+    void getRunWhenServiceErrorTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
@@ -81,7 +81,7 @@ public class TestingRpcTest {
     }
 
     @Test
-    public void getRunWhenMissingIdTest() {
+    void getRunWhenMissingIdTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // Prevent/stub logic in super.method()
@@ -90,7 +90,7 @@ public class TestingRpcTest {
     }
 
     @Test
-    public void getRunWhenServiceResponceMisformattedTest() {
+    void getRunWhenServiceResponseMisformattedTest() {
         RpcClient spy = Mockito.spy(new RpcClient());
 
         // test object
@@ -102,5 +102,87 @@ public class TestingRpcTest {
         Mockito.doReturn(array).when((BaseRpcClient) spy).executeViaPositionalParams(anyString(), anyList());
 
         assertThat(spy.getRun(1), is(equalTo(null)));
+    }
+    
+    @Test
+    void getTestParametersByTestId() {
+        RpcClient spy = Mockito.spy(new RpcClient());
+    
+        //TODO enable when date assignment in TestCase.class is working; returns null when mapping a valid date format
+//        Date date = Date.from(Instant.now());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+//        String formattedDate = sdf.format(date);
+    
+        //Test object
+        JSONArray result = new JSONArray();
+        JSONObject resultBody = new JSONObject();
+        resultBody.put("id", "2");
+//        resultBody.put("created_date", formattedDate); //TODO enable when date assignment in TestCase.class is working
+        resultBody.put("is_automated", true);
+        resultBody.put("script", "");
+        resultBody.put("arguments", "");
+        resultBody.put("extra_link", null);
+        resultBody.put("summary", "Test summary");
+        resultBody.put("requirement", null);
+        resultBody.put("notes", "");
+        resultBody.put("text", "Scenario text");
+        resultBody.put("case_status", 2);
+        resultBody.put("case_status__name", "CONFIRMED");
+        resultBody.put("category", 1);
+        resultBody.put("category__name", "Category");
+        resultBody.put("priority", 1);
+        resultBody.put("priority__value", "P1");
+        resultBody.put("author", 4);
+        resultBody.put("author__username", "a.user");
+        resultBody.put("default_tester", 4);
+        resultBody.put("default_tester__username", "a.user");
+        resultBody.put("reviewer", null);
+        resultBody.put("reviewer__username", null);
+        resultBody.put("setup_duration", 0.0);
+        resultBody.put("testing_duration", 0.0);
+        resultBody.put("expected_duration", 0.0);
+        
+        result.add(resultBody);
+    
+        Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
+        
+        //Expected test case
+        TestCase expectedTc = new TestCase();
+        expectedTc.setCaseId(2);
+//        expectedTc.setCreateDate(date); //TODO enable when date assignment in TestCase.class is working
+        expectedTc.setAuthor("4");
+        expectedTc.setAutomated(true);
+        expectedTc.setSummary("Test summary");
+        expectedTc.setArguments("");
+        
+        //Get result from the "api"
+        TestCase resultingTc = spy.getTestCaseById(2);
+        
+        // Resulting TestCase should be the same as in JSON response
+        assertThat(resultingTc, Matchers.samePropertyValuesAs(expectedTc));
+    }
+    
+    @Test
+    void getTestParametersByTestIdWithEmptyResponse() {
+        RpcClient spy = Mockito.spy(new RpcClient());
+        
+        //Empty response for getTestCaseById
+        JSONArray result = new JSONArray();
+        Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
+    
+        assertThat(spy.getTestCaseById(1), is(nullValue()));
+    }
+    
+    @Test
+    void getTestParametersByTestIdWithEmptyObject() {
+        RpcClient spy = Mockito.spy(new RpcClient());
+        
+        //Empty response for getTestCaseById
+        JSONArray result = new JSONArray();
+        JSONObject emptyCase = new JSONObject();
+        result.add(emptyCase);
+        Mockito.doReturn(result).when((BaseRpcClient) spy).executeViaPositionalParams(eq(TEST_CASE_FILTER), anyList());
+        
+        assertThat(spy.getTestCaseById(1), is(nullValue()));
     }
 }

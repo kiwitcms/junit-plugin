@@ -4,20 +4,11 @@
 
 package org.kiwitcms.java.config;
 
-import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-
 import org.ini4j.Ini;
 import org.ini4j.IniPreferences;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Optional;
-import java.util.prefs.Preferences;
 
 public class Config {
 
@@ -62,7 +53,8 @@ public class Config {
     }
 
     public Integer getRunId() {
-        String runId = System.getenv("TCMS_RUN_ID");
+        String runId = Optional.ofNullable(System.getenv("TCMS_RUN_ID")).
+                               orElse(config.node("tcms").get("runId", null));
 
         if (runId == null) {
             return null;
@@ -75,21 +67,29 @@ public class Config {
         return
                 Optional.ofNullable(System.getenv("TCMS_PRODUCT")).
                         orElse(Optional.ofNullable(System.getenv("TRAVIS_REPO_SLUG")).
-                                    orElse(System.getenv("JOB_NAME")));
+                                orElse(Optional.ofNullable(System.getenv("JOB_NAME")).
+                                        orElse(config.node("tcms").get("product", null))));
     }
 
     public String getProductVersion() {
         return
                 Optional.ofNullable(System.getenv("TCMS_PRODUCT_VERSION")).
                         orElse(Optional.ofNullable(System.getenv("TRAVIS_COMMIT")).
-                                    orElse(Optional.ofNullable(System.getenv("TRAVIS_PULL_REQUEST_SHA")).
-                                                orElse(System.getenv("GIT_COMMIT"))));
+                                orElse(Optional.ofNullable(System.getenv("TRAVIS_PULL_REQUEST_SHA")).
+                                        orElse(Optional.ofNullable(System.getenv("GIT_COMMIT")).
+                                                orElse(config.node("tcms").get("productVer", null)))));
     }
 
     public String getBuild() {
         return
                 Optional.ofNullable(System.getenv("TCMS_BUILD")).
                         orElse(Optional.ofNullable(System.getenv("TRAVIS_BUILD_NUMBER")).
-                                    orElse(System.getenv("BUILD_NUMBER")));
+                                orElse(Optional.ofNullable(System.getenv("BUILD_NUMBER")).
+                                        orElse(config.node("tcms").get("build", null))));
+    }
+    
+    public String getRunName() {
+        return Optional.ofNullable(System.getProperty("tcmsRunName")).
+                               orElse(config.node("tcms").get("runName", null));
     }
 }

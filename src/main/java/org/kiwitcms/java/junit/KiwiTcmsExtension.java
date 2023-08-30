@@ -4,13 +4,10 @@
 
 package org.kiwitcms.java.junit;
 
+import org.kiwitcms.java.annotations.TcmsTestAttributesAnnotationProcessor;
 import org.kiwitcms.java.config.Config;
-import org.kiwitcms.java.model.TcmsTestCaseId;
 import org.kiwitcms.java.model.TestMethod;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.*;
-import org.junit.jupiter.engine.discovery.predicates.IsTestMethod;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 
 import javax.naming.ConfigurationException;
@@ -18,7 +15,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KiwiTcmsExtension extends SummaryGeneratingListener  implements AfterAllCallback, AfterEachCallback, BeforeAllCallback {
+public class KiwiTcmsExtension extends SummaryGeneratingListener implements AfterAllCallback, AfterEachCallback, BeforeAllCallback {
 
     private List<TestMethod> tests;
 
@@ -30,19 +27,19 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
         tests = new ArrayList<>();
     }
 
-    public void afterAll(ExtensionContext context){
+    public void afterAll(ExtensionContext context) {
         TestDataEmitter emitter = new TestDataEmitter();
         int runId = emitter.getTestRunId();
         emitter.addTestResultsToRun(runId, tests);
         emitter.closeSession();
     }
 
-    public void afterEach(ExtensionContext context){
+    public void afterEach(ExtensionContext context) {
         if (context.getTestMethod().isPresent()) {
             Method method = context.getTestMethod().get();
             TestMethod test = new TestMethod();
             test.name = method.getName();
-            if (context.getExecutionException().isPresent()){
+            if (context.getExecutionException().isPresent()) {
                 test.exception = context.getExecutionException().get();
                 test.result = "FAIL";
             }
@@ -50,10 +47,26 @@ public class KiwiTcmsExtension extends SummaryGeneratingListener  implements Aft
                 test.result = "PASS";
             }
             test.containingClass = method.getDeclaringClass().getSimpleName();
-            if (method.isAnnotationPresent(TcmsTestCaseId.class)) {
-                TcmsTestCaseId tcmsTestCaseId = method.getAnnotation(TcmsTestCaseId.class);
-                test.id = tcmsTestCaseId.value();
+    
+            //Assign test attributes if present in annotations
+            TcmsTestAttributesAnnotationProcessor classAnnotation = new TcmsTestAttributesAnnotationProcessor(method.getDeclaringClass());
+            TcmsTestAttributesAnnotationProcessor methodAnnotation = new TcmsTestAttributesAnnotationProcessor(method);
+            //Test ID
+            test.id = classAnnotation.getTestCaseId() != 0 ? classAnnotation.getTestCaseId() : methodAnnotation.getTestCaseId();
+            if (classAnnotation.getTestCaseId() != 0 && methodAnnotation.getTestCaseId() != 0 && classAnnotation.getTestCaseId() != methodAnnotation.getTestCaseId()) {
+                test.id = methodAnnotation.getTestCaseId();
             }
+            //Product ID
+            test.productId = classAnnotation.getProductId() != 0 ? classAnnotation.getProductId() : methodAnnotation.getProductId();
+            if (classAnnotation.getProductId() != 0 && methodAnnotation.getProductId() != 0 && classAnnotation.getProductId() != methodAnnotation.getProductId()) {
+                test.productId = methodAnnotation.getProductId();
+            }
+            //Plan ID
+            test.testPlanId = classAnnotation.getPlanId() != 0 ? classAnnotation.getPlanId() : methodAnnotation.getPlanId();
+            if (classAnnotation.getPlanId() != 0 && methodAnnotation.getPlanId() != 0 && classAnnotation.getPlanId() != methodAnnotation.getPlanId()) {
+                test.testPlanId = methodAnnotation.getPlanId();
+            }
+            
             tests.add(test);
         }
     }

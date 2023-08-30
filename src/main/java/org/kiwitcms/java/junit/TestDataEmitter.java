@@ -7,6 +7,7 @@ package org.kiwitcms.java.junit;
 
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kiwitcms.java.api.RpcClient;
 import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
@@ -81,13 +82,13 @@ public class TestDataEmitter {
 //TODO: this must check if this TR is already available in the DB
 // and not create a new TR for the same product, version and build
             if (runId == null) {
-                runId = client.createNewRun(getBuild(getVersion(getProductId())),
-                        config.getUsername(),
-                        getPlanId(),
-                        String.format("[JUnit] Results for %s, %s, %s",
-                                config.getProduct(),
-                                config.getProductVersion(),
-                                config.getBuild())).getId();
+                String runName = StringUtils.isNotBlank(config.getRunName()) ? config.getRunName() : String.format("[JUnit] Results for %s, %s, %s", config.getProduct(), config.getProductVersion(), config.getBuild());
+                runId = client.createNewRun(
+                    getBuild(getVersion(getProductId())),
+                    config.getUsername(),
+                    getPlanId(),
+                    runName)
+                              .getId();
             }
         }
         casesInTestRun = client.getRunIdTestCases(runId);
@@ -95,6 +96,7 @@ public class TestDataEmitter {
     }
 
     public void addTestResultsToRun(int runId, List<TestMethod> tests) {
+        //Defaults from config
         int productId  = getProductId();
         int categoryId = getAvailableCategoryId(productId);
         int priorityId = getAvailablePriorityId();
@@ -102,14 +104,19 @@ public class TestDataEmitter {
 
         for (TestMethod test : tests) {
             TestCase testCase = null;
+            //Override values from annotation (if present and not 0)
+            int overridePlanId = test.testPlanId != 0 ? test.testPlanId : testPlanId;
+            int overrideProductId = test.productId != 0 ? test.productId : productId;
+            
             if (test.id != 0) {
                 testCase = client.getTestCaseById(test.id);
             }
             if (ObjectUtils.isEmpty(testCase)) {
-                testCase = client.getOrCreateTestCase(productId, categoryId, priorityId, test.getSummary());
+                testCase = client.getOrCreateTestCase(overrideProductId, categoryId, priorityId, test.getSummary());
             }
-            client.addTestCaseToPlan(testPlanId, testCase.getCaseId());
-    
+            
+            client.addTestCaseToPlan(overridePlanId, testCase.getCaseId());
+            
             TestExecution[] executions = client.addTestCaseToRunId(runId, testCase.getCaseId());
             for (TestExecution testExecution : executions) {
                 client.updateTestExecution(testExecution.getTcRunId(), getTestExecutionStatusId(test.result));
