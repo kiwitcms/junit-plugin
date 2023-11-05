@@ -5,7 +5,6 @@
 
 package org.kiwitcms.java.api;
 
-import org.kiwitcms.java.config.Config;
 import org.kiwitcms.java.model.*;
 
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
@@ -18,6 +17,7 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class RpcClient extends BaseRpcClient {
     private static final String GET_RUN_TCS_METHOD = "TestRun.get_cases";
     private static final String CREATE_RUN_METHOD = "TestRun.create";
     public static final String CREATE_TC_METHOD = "TestCase.create";
-    private static final String TEST_CASE_FILTER = "TestCase.filter";
+    public static final String TEST_CASE_FILTER = "TestCase.filter";
     private static final String ADD_TC_TO_RUN_METHOD = "TestRun.add_case";
     private static final String RUN_FILTER = "TestRun.filter";
     private static final String ADD_TC_TO_PLAN_METHOD = "TestPlan.add_case";
@@ -88,6 +88,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestCase getOrCreateTestCase(int productId, int categoryId, int priorityId, String summary) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("summary", summary);
@@ -107,6 +108,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestRun createNewRun(int build, String manager, int plan, String summary) {
         Map<String, Object> params = new HashMap<>();
         params.put("build", build);
@@ -122,6 +124,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestCase[] getRunIdTestCases(int runId) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(GET_RUN_TCS_METHOD, Arrays.asList((Object) runId));
         try {
@@ -132,6 +135,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestExecution[] addTestCaseToRunId(int runId, int caseId) {
         Map<String, Object> params = new HashMap<>();
         params.put("run_id", runId);
@@ -161,6 +165,7 @@ public class RpcClient extends BaseRpcClient {
         return !jsonArray.isEmpty();
     }
 
+    //TODO: test coverage
     public int getTestPlanId(String name, int productId) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("name", name);
@@ -198,6 +203,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestPlan createNewTP(int productId, String name, int versionId) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Unit");
@@ -220,6 +226,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public void addTestCaseToPlan(int planId, int caseId) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("pk", caseId);
@@ -246,6 +253,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public TestExecution updateTestExecution(int tcRunId, int status) {
         Map<String, Object> values = new HashMap<>();
         values.put("status", status);
@@ -264,11 +272,13 @@ public class RpcClient extends BaseRpcClient {
     }
 
     // TODO: Create TestCaseStatus class
+    //TODO: test coverage
     public JSONArray getTestCaseStatus(Map<String, Object> filter) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_STATUS_FILTER, Arrays.asList((Object) filter));
         return jsonArray;
     }
 
+    //TODO: test coverage
     //Get first available
     public int getConfirmedTCStatusId() {
         Map<String, Object> confirmed_params = new HashMap<>();
@@ -277,6 +287,7 @@ public class RpcClient extends BaseRpcClient {
         return Integer.parseInt(String.valueOf(id));
     }
 
+    //TODO: test coverage
     public Integer getProductId(String name) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("name", name);
@@ -294,6 +305,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Product createNewProduct(String name) {
         Map<String, Object> params = new HashMap<>();
 
@@ -314,6 +326,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Build[] getBuilds(Map<String, Object> filter) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(BUILD_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
@@ -329,6 +342,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Build createBuild(String name, int versionId) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
@@ -342,6 +356,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Version[] getVersions(Map<String, Object> filter) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(VERSION_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
@@ -357,6 +372,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Version createProductVersion(String version, int productId) {
         Map<String, Object> params = new HashMap<>();
         params.put("value", version);
@@ -371,6 +387,7 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     public Priority[] getPriority(Map<String, Object> filter) {
         JSONArray jsonArray = (JSONArray) executeViaPositionalParams(PRIORITY_FILTER, Arrays.asList((Object) filter));
         if (jsonArray.isEmpty()) {
@@ -385,11 +402,13 @@ public class RpcClient extends BaseRpcClient {
         }
     }
 
+    //TODO: test coverage
     // TODO: Create Category class
     public JSONArray getCategory(Map<String, Object> filter) {
         return (JSONArray) executeViaPositionalParams(CATEGORY_FILTER, Arrays.asList((Object) filter));
     }
 
+    //TODO: test coverage
     public TestExecutionStatus getTestExecutionStatus(String name, String weightLookup) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("name", name);
@@ -406,6 +425,24 @@ public class RpcClient extends BaseRpcClient {
         try {
             TestExecutionStatus[] statuses = new ObjectMapper().readValue(jsonArray.toJSONString(), TestExecutionStatus[].class);
             return statuses[0];
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public TestCase getTestCaseById(int testCaseId) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("id", testCaseId);
+        JSONArray jsonArray = (JSONArray) executeViaPositionalParams(TEST_CASE_FILTER, Collections.singletonList(filter));
+        if (jsonArray == null || jsonArray.isEmpty() || jsonArray.toJSONString().equals("[{}]")) {
+            System.out.printf("-- kiwitcms-junit-plugin -- Case ID \"%s\" not found%n", testCaseId);
+            return null;
+        }
+
+        try {
+            TestCase[] testCases = new ObjectMapper().readValue(jsonArray.toJSONString(), TestCase[].class);
+            return testCases[0];
         } catch (IOException e) {
             e.printStackTrace();
             return null;
