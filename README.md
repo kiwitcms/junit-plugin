@@ -24,6 +24,12 @@ This plugin extends `org.junit.jupiter.api.extension.Extension` and has
 `junit.jupiter.extensions.autodetection.enabled=true` configured by default in
 `pom.xml`. This means Jupiter will pick it up automatically.
 
+You can point each executed test case to a specific case ID by annotating `@Test` method with `@TcmsTestCaseId(int)`,
+where `int` is the test case ID. See the `KiwiTcmsExtension` example below.
+If the test case is not found searching by ID, plugin will default to standard search method.
+You can find the case ID in your TCMS instance URL (example: https://tcms.server/case/1)
+or on the test case page in the test case name (TC-**1**: Test case 1).
+
 You may alternatively decorate your test suite with the `KiwiTcmsExtension` class
 but that should be redundant:
 
@@ -54,6 +60,54 @@ Minimal config file `~/.tcms.conf`:
 You can override the default file location by adding the Maven option ```tcmsConfigPath```
 followed by the full path to a config file. For example:
 ```-DtcmsConfigPath=D:\Path\To\tcms.conf```
+
+There are special keys that can be used to configure the reported test cases/plans:
+- `runId` test cases will be reported under one ID specified as the value. This ID has to be already registered in TCMS.
+Can be overwritten by setting environmental variable `TCMS_RUN_ID`
+- `runName` if you don't like the built-in `[JUnit] Results for [Product], [ProductVersio], [Build]` test run name,
+you can specify your own. Works only for newly registered runs. Can be overwritten by Maven option `tcmsRunName`
+(ex.: `-DtcmsRunName=HelloWorld`)
+- `product` test cases will be reported under specified product name. Can be overwritten by setting any
+  of the env variables: `JOB_NAME`, `TRAVIS_REPO_SLUG` or `TCMS_PRODUCT`
+- `productVer` test cases will be reported under specified product version. Can be overwritten by setting any
+  of the env variables: `TRAVIS_PULL_REQUEST_SHA`, `TRAVIS_COMMIT` or `TCMS_PRODUCT_VERSION`
+- `build` test cases will be reported under specified build. Can be overwritten by setting any
+  of the env variables: `BUILD_NUMBER`, `TRAVIS_BUILD_NUMBER` or `TCMS_BUILD`
+
+Each test method and class can have its properties specified with `@TcmsAttributes` annotation. For example:
+
+    @TcmsAttributes(productId=10, planId=3)
+    public class testClass {
+        @Test
+        @TcmsAttributes(testCaseId=11)
+        public void testOne() {
+            assertThat(...);
+        }
+
+        @Test
+        @TcmsAttributes(10)
+        public void testTwo() {
+            assertThat(...);
+        }
+
+        @Test
+        @TcmsAttributes(productId=11, testCaseId=12, planId=4)
+        public void testThree() {
+            assertThat(...);
+        }
+    }
+
+In this example all tests would have been assigned to a test run with product ID = 10, except testThree
+which would be assigned to product ID = 11.
+Each of the tests would be assigned to an existing testCase ID (testOne - 11, testTwo - 10, testThree - 12).
+All values specified in the test (method) annotation will override class level annotation attributes.
+Attributes which you can specify are:
+- `testCaseId` (it can be also put as annotation value, without the name, same as testTwo annotation in usage example)
+- `productId`
+- `planId`
+
+Warning: Mismatching attributes with real values in KiwiTCMS can lead to not reported or misreported test executions/runs.
+Make sure to double check the data you input into the attributes.
 
 For more info see [tcms-api docs](https://tcms-api.readthedocs.io).
 
