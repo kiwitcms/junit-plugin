@@ -11,6 +11,7 @@ public class TestMethod {
     public String containingClass;
     public String result;
     public Throwable exception;
+    public int id;
 
     public TestMethod(){};
 
